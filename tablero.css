@@ -1,0 +1,31 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+section {
+    display: grid;
+    grid-template-columns: repeat(6, 15vh);
+    grid-template-rows: repeat(5, 15vh);
+    justify-content: center;
+}
+
+.casilla {
+    background-color: orange;
+    border: 4px solid rebeccapurple;
+}
+
+.hueco {
+    grid-column: span 5;
+}
+
+a {
+    cursor: pointer;
+}
+
+#use-landscape {
+    display: none;
+}
+@media screen and (orientation: portrait) {
+    section { display: none; }
+    #use-landscape { display: block; }
+ }
