@@ -29,21 +29,29 @@ $(function () {
     
     color = generarColores($casillas, colores, color);
 
-    $casillas.each(function (i) {
-        $(this).css('background-color', `hsl(${colores[i]}, 100%, 78%)`);
-
-        if ((i > 0 && i <= 5) || (i > 7 && i <= 12) || (i > 14)) {
-            $(this).css('border-left', '0px');
-        } else if (i == 6 || i == 13) {
-            $(this).css('border-top', '0px').css('border-bottom', '0px');
-        }
+    bordesCasillas($casillas, colores);
+    $('#cubilete').click(function() {
+        $('#cubilete').effect( "shake", {times:4, direction:'up'}, 1000 );
     })
 })
+
+function bordesCasillas($casillas, colores) {
+    $('.hueco').first().css('border-right', '4px solid rebeccapurple');
+    $casillas.each(function (i) {
+        $(this).css('background-color', `hsl(${colores[i]}, 100%, 78%)`);
+        if ((i > 0 && i <= 6) || (i > 7 && i <= 12) || (i > 14)) {
+            $(this).css('border-left', '0px');
+        }
+        if (i == 6 || i == 13) {
+            $(this).css('border-top', '0px').css('border-bottom', '0px');
+        }
+    });
+}
 
 function generarColores($casillas, colores, color) {
     for (let index = 0; index < $casillas.length; index++) {
         colores.push(color);
-        color += 10;
+        color += 18;
         if (color > 359)
             color = 0;
     }

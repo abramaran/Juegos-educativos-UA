@@ -2,6 +2,24 @@ nav {
     display: flex;
     justify-content: space-between;
 }
+
+a {
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#cubilete > img {
+    max-width: 10vw;
+    cursor: pointer;
+}
+
 section {
     display: grid;
     grid-template-columns: repeat(6, 15vh);
@@ -18,14 +36,81 @@ section {
     grid-column: span 5;
 }
 
-a {
-    cursor: pointer;
+.wrap {
+	perspective: none;
+	perspective-origin: 0 0;
+}
+
+.cube {
+	position: relative;
+	width: 50px;
+    transform-style: preserve-3d;
+    transform-origin: 25px 25px;
+}
+
+.cube div {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: bisque;
+    background-size: 50px;
+}
+
+.back {
+    transform: translateZ(-25px) rotateY(180deg);
+    background-image: url('dado/3.svg');
+}
+.right {
+	transform: rotateY(-270deg) translateX(25px);
+    transform-origin: top right;
+    background-image: url('dado/2.svg');
+}
+.left {
+	transform: rotateY(270deg) translateX(-25px);
+    transform-origin: center left;
+    background-image: url('dado/5.svg');
+}
+.top {
+	transform: rotateX(-90deg) translateY(-25px);
+    transform-origin: top center;
+    background-image: url('dado/1.svg');
+}
+.bottom {
+	transform: rotateX(90deg) translateY(25px);
+    transform-origin: bottom center;
+    background-image: url('dado/6.svg');
+}
+.front {
+    transform: translateZ(25px);
+    background-image: url('dado/4.svg');
+}
+
+@keyframes spin {
+    0% { transform: rotateX(0) rotateY(0); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+@keyframes translate {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-200px);
+    }
+}
+
+.cube {
+	animation: spin 1.5s infinite ease-out;
+}
+
+.wrap {
+    animation: translate 1.5s infinite ease;
 }
 
 #use-landscape {
     display: none;
 }
 @media screen and (orientation: portrait) {
-    section { display: none; }
+    section, #cubilete { display: none; }
     #use-landscape { display: block; }
  }
