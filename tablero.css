@@ -44,7 +44,10 @@ section + div {
 
 .wrap {
 	perspective: none;
-	perspective-origin: 0 0;
+    perspective-origin: 0 0;
+    position: absolute;
+    /*display: none;*/
+    opacity: 0;
 }
 
 .cube {
@@ -97,20 +100,27 @@ section + div {
 }
 
 @keyframes translate {
-    from {
-        transform: translateY(0);
+    0% {
+        opacity: 0;
+        transform: translateY(0) translateX(0);
     }
-    to {
-        transform: translateY(-50vh);
+    25% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(var(--ydado, -45vh)) translateX(var(--xdado, 0vh));
     }
 }
 
-.cube {
-	animation: spin 1.5s infinite ease-out;
+.cube-anim {
+    animation: spin 1.5s ease-out forwards;
+    animation-delay: var(--delayDado, 0.5s);
 }
 
-.wrap {
-    animation: translate 1.5s infinite ease;
+.wrap-anim {
+    animation: translate 1.5s ease forwards;
+    animation-delay: var(--delayDado, 0.5s);
 }
 
 #use-landscape {
