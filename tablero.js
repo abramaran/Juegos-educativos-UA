@@ -1,73 +1,82 @@
-/* function pantallaCompleta() {
-    var elem = document.documentElement;
-
-    if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { // Firefox
-        elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { // IE/Edge
-        elem.msRequestFullscreen();
-    }
-} */
-
-function pantallaCompleta() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-    } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
-    }
-}
-
 $(function () {
     let color = Math.floor(Math.random() * 359);
     let colores = [];
     let $casillas = $('.casilla');
+
+    $('#peon').draggable({ revert: "invalid" });
+    $('#6').droppable({
+        classes: {
+          "ui-droppable-active": "ui-state-active",
+          "ui-droppable-hover": "ui-state-hover"
+        },
+        drop: function( event, ui ) {
+          $( this )
+            .addClass( "ui-state-highlight" )
+            .find( "p" )
+              .html( "Dropped!" );
+        }
+      });
     
     color = generarColores($casillas, colores, color);
 
     bordesCasillas($casillas, colores);
-    $('#cubilete').click(function(e) {
+    $('#cubilete').click(tirarDados).on('dragstart', function(event) { event.preventDefault(); }); //evitar que arrastren la imagen
+});
+
+function recolocaDados(numA, numB) {
+    $('.cube > .front').eq(0).css('background-image', 'url("dado/' + numA + '.svg"');
+    $('.cube > .back').eq(0).css('background-image', 'url("dado/' + (7 - numA) + '.svg"');
+    if (numA == 6) numA = 1;
+    numA++;
+    $('.cube > .right').eq(0).css('background-image', 'url("dado/' + numA + '.svg"');
+    $('.cube > .left').eq(0).css('background-image', 'url("dado/' + (7 - numA) + '.svg"');
+    if (numA == 6) numA = 2;
+    numA++;
+    $('.cube > .top').eq(0).css('background-image', 'url("dado/' + numA + '.svg"');
+    $('.cube > .bottom').eq(0).css('background-image', 'url("dado/' + (7 - numA) + '.svg"');
+    
+    // Ahora para el segundo dado
+    $('.cube > .front').eq(1).css('background-image', 'url("dado/' + numB + '.svg"');
+    $('.cube > .back').eq(1).css('background-image', 'url("dado/' + (7 - numB) + '.svg"');
+    if (numB == 6) numB = 1;
+    numB++;
+    $('.cube > .right').eq(1).css('background-image', 'url("dado/' + numB + '.svg"');
+    $('.cube > .left').eq(1).css('background-image', 'url("dado/' + (7 - numB) + '.svg"');
+    if (numB == 6) numB = 2;
+    numB++;
+    $('.cube > .top').eq(1).css('background-image', 'url("dado/' + numB + '.svg"');
+    $('.cube > .bottom').eq(1).css('background-image', 'url("dado/' + (7 - numB) + '.svg"');
+
+}
+
+function tirarDados(e) {
         e.preventDefault;
         let cube = document.querySelectorAll('.cube');
         let wrap = document.querySelectorAll('.wrap');
         let cubilete = $('#cubilete');
-        
+        let anchoCubilete = cubilete.width();
+        let anchoWrap = $('.wrap').width();        
+
         for (let i = 0; i < wrap.length; i++) {
             const icube = cube[i];
             const iwrap = wrap[i];
-
             icube.classList.remove('cube-anim');
             iwrap.classList.remove('wrap-anim');
             iwrap.style.top = cubilete.position().top - 10 + 'px';
-            iwrap.style.left = cubilete.position().left + (10 * i + 1) + 'px';
+            iwrap.style.left = cubilete.position().left + (anchoCubilete * 0.25 - anchoWrap/2 + anchoCubilete * 0.5 * i) + 'px';
             iwrap.style.zIndex = -1 - i;
             iwrap.style.setProperty('--ydado', -40 + (Math.random() * 5 + 1) + 'vh');
-            
-            const randoms = (Math.random() * 4 + 4);
-            let equis = (Math.pow(-1, i + 1) * randoms + 'vh');
-            console.log(i + 1);
-            console.log(randoms);
-            console.log(equis);
-            
-            iwrap.style.setProperty('--xdado', equis);
+            iwrap.style.setProperty('--xdado', (Math.pow(-1, i + 1) * (Math.random() * 2 + 3) + 'vh'));
             iwrap.style.setProperty('--delayDado', (Math.random() * 0.7 + 0.4) + 's');
-        }        
-        void cube[0].offsetWidth;
-        void wrap[0].offsetWidth;
-        void cube[1].offsetWidth;
-        void wrap[1].offsetWidth;
-
-        $('#cubilete').effect( "shake", {times:4, direction:'up'}, 1000 );
+            icube.offsetWidth;
+        }
+        recolocaDados(Math.floor(Math.random() * 6 + 1), Math.floor(Math.random() * 6 + 1));
+        $('#cubilete').effect("shake", { times: 4, direction: 'up' }, 1000);
         cube[0].classList.add('cube-anim');
         wrap[0].classList.add('wrap-anim');
         cube[1].classList.add('cube-anim');
         wrap[1].classList.add('wrap-anim');
-    })
-})
+}
 
 function bordesCasillas($casillas, colores) {
     $('.hueco').first().css('border-right', '4px solid rebeccapurple');
@@ -95,4 +104,14 @@ function generarColores($casillas, colores, color) {
         colores[i + 7] = elem;
     });
     return color;
+}
+
+function pantallaCompleta() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
 }

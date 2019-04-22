@@ -9,7 +9,7 @@ a {
 
 main {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-left: 5%;
     margin-right: 5%;
@@ -20,6 +20,10 @@ main {
     cursor: pointer;
     position: relative;
     top: 25vh;
+}
+
+#peon {
+    width: 15vh;
 }
 
 section {
@@ -36,6 +40,14 @@ section + div {
 .casilla {
     background-color: orange;
     border: 4px solid rebeccapurple;
+}
+
+.ui-state-active {
+    background-color: lime;
+}
+
+.ui-state-hover {
+    background-color: whitesmoke;
 }
 
 .hueco {
