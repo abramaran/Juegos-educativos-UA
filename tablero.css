@@ -24,6 +24,11 @@ main {
 
 #peon {
     width: 15vh;
+    cursor: grab;
+}
+#peon:active {
+    width: 15vh;
+    cursor: grabbing;
 }
 
 section {

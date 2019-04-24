@@ -1,27 +1,37 @@
+var casillasAvanzadas = 0;
+const casillasTotales = 20;
+var parteJuego = 'tirar';
+var sonidoCubilete = new Audio('agitarDados.mp3');
+
 $(function () {
     let color = Math.floor(Math.random() * 359);
     let colores = [];
     let $casillas = $('.casilla');
 
     $('#peon').draggable({ revert: "invalid" });
-    $('#6').droppable({
-        classes: {
-          "ui-droppable-active": "ui-state-active",
-          "ui-droppable-hover": "ui-state-hover"
-        },
-        drop: function( event, ui ) {
-          $( this )
-            .addClass( "ui-state-highlight" )
-            .find( "p" )
-              .html( "Dropped!" );
-        }
-      });
-    
+
     color = generarColores($casillas, colores, color);
 
     bordesCasillas($casillas, colores);
-    $('#cubilete').click(tirarDados).on('dragstart', function(event) { event.preventDefault(); }); //evitar que arrastren la imagen
+    $('#cubilete').click(tirarDados).on('dragstart', function (event) { event.preventDefault(); }); //evitar que arrastren la imagen
 });
+
+function hacerDroppable(numero) {
+    $('#' + casillasAvanzadas).droppable('disable');
+    $('#' + numero).droppable({
+        classes: {
+            "ui-droppable-active": "ui-state-active",
+            "ui-droppable-hover": "ui-state-hover"
+        },
+        drop: function (event, ui) {
+            $(this)
+                .addClass("ui-state-highlight")
+                .find("p")
+                .html("Dropped!");
+            parteJuego = 'tirar';
+        }
+    });
+}
 
 function recolocaDados(numA, numB) {
     $('.cube > .front').eq(0).css('background-image', 'url("dado/' + numA + '.svg"');
@@ -34,7 +44,7 @@ function recolocaDados(numA, numB) {
     numA++;
     $('.cube > .top').eq(0).css('background-image', 'url("dado/' + numA + '.svg"');
     $('.cube > .bottom').eq(0).css('background-image', 'url("dado/' + (7 - numA) + '.svg"');
-    
+
     // Ahora para el segundo dado
     $('.cube > .front').eq(1).css('background-image', 'url("dado/' + numB + '.svg"');
     $('.cube > .back').eq(1).css('background-image', 'url("dado/' + (7 - numB) + '.svg"');
@@ -50,12 +60,13 @@ function recolocaDados(numA, numB) {
 }
 
 function tirarDados(e) {
-        e.preventDefault;
+    e.preventDefault;
+    if (parteJuego == 'tirar') {
         let cube = document.querySelectorAll('.cube');
         let wrap = document.querySelectorAll('.wrap');
         let cubilete = $('#cubilete');
         let anchoCubilete = cubilete.width();
-        let anchoWrap = $('.wrap').width();        
+        let anchoWrap = $('.wrap').width();
 
         for (let i = 0; i < wrap.length; i++) {
             const icube = cube[i];
@@ -63,19 +74,33 @@ function tirarDados(e) {
             icube.classList.remove('cube-anim');
             iwrap.classList.remove('wrap-anim');
             iwrap.style.top = cubilete.position().top - 10 + 'px';
-            iwrap.style.left = cubilete.position().left + (anchoCubilete * 0.25 - anchoWrap/2 + anchoCubilete * 0.5 * i) + 'px';
+            iwrap.style.left = cubilete.position().left + (anchoCubilete * 0.25 - anchoWrap / 2 + anchoCubilete * 0.5 * i) + 'px';
             iwrap.style.zIndex = -1 - i;
             iwrap.style.setProperty('--ydado', -40 + (Math.random() * 5 + 1) + 'vh');
             iwrap.style.setProperty('--xdado', (Math.pow(-1, i + 1) * (Math.random() * 2 + 3) + 'vh'));
-            iwrap.style.setProperty('--delayDado', (Math.random() * 0.7 + 0.4) + 's');
+            iwrap.style.setProperty('--delayDado', (Math.random() * 0.7 + 1.5) + 's');
             icube.offsetWidth;
         }
-        recolocaDados(Math.floor(Math.random() * 6 + 1), Math.floor(Math.random() * 6 + 1));
-        $('#cubilete').effect("shake", { times: 4, direction: 'up' }, 1000);
+        let valorA = Math.floor(Math.random() * 6 + 1);
+        let valorB = Math.floor(Math.random() * 6 + 1);
+/*         if (casillasAvanzadas + valorA + valorB == casillasTotales - 1) {    //Comprobar que el niño no se pueda quedar a una casilla de la meta.
+
+        } */
+        if (casillasAvanzadas + valorA + valorB > casillasTotales) {    //Comprobar que el niño no se pueda quedar a una casilla de la meta.
+            valorA = Math.floor(Math.random() * (casillasTotales - 1 - casillasAvanzadas) + 1);
+            valorB = casillasTotales - casillasAvanzadas - valorA;
+        }
+        recolocaDados(valorA, valorB);
+        hacerDroppable(casillasAvanzadas + valorA + valorB);
+        casillasAvanzadas += valorA + valorB;
+        sonidoCubilete.play();
+        $('#cubilete').effect("shake", { times: 4, direction: 'up' }, 2000);
         cube[0].classList.add('cube-anim');
         wrap[0].classList.add('wrap-anim');
         cube[1].classList.add('cube-anim');
         wrap[1].classList.add('wrap-anim');
+        parteJuego = 'mover';
+    }
 }
 
 function bordesCasillas($casillas, colores) {
