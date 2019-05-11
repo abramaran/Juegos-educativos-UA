@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Minijuego resta</title>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- JQUERY UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="../jquery.ui.touch-punch.min.js"></script>
+    <!-- CONFETTI.JS -->
+    <script src="../confetti.js"></script>
+    <!-- JQUERY MODAL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <!-- TIPOGRAFIA -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
+    <!-- COOKIES -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="balanza.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../common.css">
+    <script src="balanza.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="../index.html"><button>Volver</button></a>
+            <h1>Balanza</h1>
+            <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
+        </nav>
+    </header>
+    <main>
+    <div id="pesas">
+        <img id="1" class="draggable" src="Pesas/1.png"></img>
+        <img id="2" class="draggable" src="Pesas/2.png"></img>
+        <img id="3" class="draggable" src="Pesas/3.png"></img>
+        <img id="4" class="draggable" src="Pesas/4.png"></img>
+        <img id="5" class="draggable" src="Pesas/5.png"></img>
+        <img id="6" class="draggable" src="Pesas/6.png"></img>
+        <img id="7" class="draggable" src="Pesas/7.png"></img>
+        <img id="8" class="draggable" src="Pesas/8.png"></img>
+        <img id="9" class="draggable" src="Pesas/9.png"></img>
+    </div>
+
+    <div id="balanza">
+        <img id="paloBalanza" src="balanza.png">
+        <img id="pesoSuma" src="Peso Suma/S3.png"></img>
+        <img id="pesoTotal" src="Peso Total/T9.png"></img>
+        </img>
+    </div>
+
+    <div style="text-align:center; grid-column: 1/3">
+        <button class="boton">Ayuda</button>
+        <a href="../index.html"><button class="boton">Volver</button></a>
+    </div>
+    </main>
+</body>
+
+</html>

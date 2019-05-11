@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Minijuego divisi?n</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- JQUERY UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="../jquery.ui.touch-punch.min.js"></script>
+    <!-- CONFETTI.JS -->
+    <script src="../confetti.js"></script>
+    <!-- JQUERY MODAL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <!-- TIPOGRAFIA -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
+    <!-- COOKIES -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <script src="conejos.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="conejos.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../common.css">
+</head>
+
+<body onresize="">
+    <header>
+        <nav>
+            <a href="../index.html"><button>Volver</button></a>
+            <h1>Conejos</h1>
+            <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
+        </nav>
+    </header>
+
+    <div id="divZanahorias"></div>
+
+    <div id="divConejos"></div>
+
+    <div id="divCirculos"></div><br>
+
+    <div>
+        <button class="boton">Ayuda</button>
+        <button class="boton" onclick="reiniciar()">Reiniciar</button>
+        <button class="boton">Atrás</button>
+    </div>
+
+</body>
+
+</html>

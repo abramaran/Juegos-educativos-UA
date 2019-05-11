@@ -1,11 +1,13 @@
-var casillasAvanzadas = 0;
 const casillasTotales = 20;
+var casillasAvanzadas = 0;
 var parteJuego = 'tirar';
+
 var sonidoCubilete = new Audio('agitarDados.mp3');
 var sonidoInstrucciones = new Audio('instrucciones-tablero.ogg');
-var sonidoFelicidades = new Audio('minijuego-completado.ogg');
-var sonidoCorrecto = new Audio('correctosuave.wav');
-var sonidoVictoria = new Audio('victoria.wav');
+var sonidoFelicidades = new Audio('../minijuego-completado.ogg');
+var sonidoCorrecto = new Audio('../correctosuave.wav');
+var sonidoIncorrecto = new Audio('../vuelveaintentarlo.ogg');
+var sonidoVictoria = new Audio('../victoria.wav');
 
 $(function () {
     let color = Math.floor(Math.random() * 359);
@@ -26,8 +28,37 @@ $(function () {
         startConfetti();
     });
 
-    $('#modInstrucciones').modal({showClose: false});
+    $('#modInstrucciones').modal({ showClose: false });
     sonidoInstrucciones.play();
+
+    // ---------- Funciones privadas -------------------
+    function generarColores($casillas, colores, color) {
+        for (let index = 0; index < $casillas.length; index++) {
+            colores.push(color);
+            color += 18;
+            if (color > 359)
+                color = 0;
+        }
+        let revertir = colores.slice(7, 13);
+        revertir.reverse();
+        revertir.forEach(function (elem, i) {
+            colores[i + 7] = elem;
+        });
+        return color;
+    }
+
+    function bordesCasillas($casillas, colores) {
+        $('.hueco').first().css('border-right', '4px solid rebeccapurple');
+        $casillas.each(function (i) {
+            $(this).css('background-color', `hsl(${colores[i]}, 100%, 78%)`);
+            if ((i > 0 && i <= 6) || (i > 7 && i <= 12) || (i > 14)) {
+                $(this).css('border-left', '0px');
+            }
+            if (i == 6 || i == 13) {
+                $(this).css('border-top', '0px').css('border-bottom', '0px');
+            }
+        });
+    }
 });
 
 function hacerDroppable(numero) {
@@ -38,27 +69,32 @@ function hacerDroppable(numero) {
         },
         drop: function (event, ui) {
             if (this.id == numero) {
-                $(this)
-                    .addClass("ui-state-highlight")
-                    .find("p")
-                    .html("Dropped!");
+                $(this).addClass("ui-state-highlight").find("p").html("Dropped!");
+                let aciertos = Cookies.get('tableroAciertos');
+                if (!aciertos) aciertos = 0;
+                Cookies.set('tableroAciertos', ++aciertos, { expires: 7 });
+
                 if (numero < 20) {
                     parteJuego = 'tirar';
                     sonidoCorrecto.play();
                     $('#cubilete').addClass('emphasis');
                 } else {
                     sonidoVictoria.play();
-                    sonidoVictoria.addEventListener('ended', function() {
+                    sonidoVictoria.addEventListener('ended', function () {
                         sonidoFelicidades.play();
                     });
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $('#modVictoria').modal({ fadeDuration: 500 });
                     }, 2500);
                 }
 
-                $('#peon').effect("bounce", { times: 2 });
+                $('#peon').effect("bounce", { times: 2 }).draggable('disable');
             } else {
                 ui.draggable.animate(ui.draggable.data("uiDraggable").originalPosition, "slow");
+                sonidoIncorrecto.play();
+                let fallos = Cookies.get('tableroFallos');
+                if (!fallos) fallos = 0;
+                Cookies.set('tableroFallos', ++fallos, { expires: 7 });
             }
         }
     });
@@ -96,6 +132,7 @@ function tirarDados(e) {
         let cube = document.querySelectorAll('.cube');
         let wrap = document.querySelectorAll('.wrap');
         let cubilete = $('#cubilete');
+
         cubilete.removeClass('emphasis');
         resetearAnimacion(cubilete, wrap, cube);
         let { valorA, valorB } = valoresDados();
@@ -104,16 +141,17 @@ function tirarDados(e) {
         casillasAvanzadas += valorA + valorB;
         playAnimacion(cubilete, cube, wrap);
         parteJuego = 'mover';
+        $('#peon').draggable('enable');
     }
 
     function playAnimacion(cubilete, cube, wrap) {
         sonidoCubilete.play();
         cubilete.effect("shake", { times: 4, direction: 'up' }, 2000);
-        cubilete.attr("src","cubileteesfuerzo.png");
-        setTimeout(function() {
-            cubilete.attr("src","cubiletesalir.png");
-            setTimeout(function() {
-                cubilete.attr("src","cubiletemio.png");
+        cubilete.attr("src", "cubileteesfuerzo.png");
+        setTimeout(function () {
+            cubilete.attr("src", "cubiletesalir.png");
+            setTimeout(function () {
+                cubilete.attr("src", "cubiletemio.png");
             }, 2000);
         }, 1500);
         cube[0].classList.add('cube-anim');
@@ -125,7 +163,7 @@ function tirarDados(e) {
     function valoresDados() {
         let valorA = Math.floor(Math.random() * 6 + 1);
         let valorB = Math.floor(Math.random() * 6 + 1);
-
+        //Comprobar que el niño no se pueda pasar ni quedarse a una casilla de la meta.
         if (casillasAvanzadas + valorA + valorB == casillasTotales - 1) {
             console.log('henlo');
             if (valorA > 1) {
@@ -135,7 +173,7 @@ function tirarDados(e) {
             } else {
                 valorA++;
             }
-        } else if (casillasAvanzadas + valorA + valorB > casillasTotales) { //Comprobar que el niño no se pueda quedar a una casilla de la meta.
+        } else if (casillasAvanzadas + valorA + valorB > casillasTotales) {
             valorA = Math.floor(Math.random() * (casillasTotales - 1 - casillasAvanzadas) + 1);
             valorB = casillasTotales - casillasAvanzadas - valorA;
         }
@@ -159,34 +197,6 @@ function tirarDados(e) {
             icube.offsetWidth;
         }
     }
-}
-
-function bordesCasillas($casillas, colores) {
-    $('.hueco').first().css('border-right', '4px solid rebeccapurple');
-    $casillas.each(function (i) {
-        $(this).css('background-color', `hsl(${colores[i]}, 100%, 78%)`);
-        if ((i > 0 && i <= 6) || (i > 7 && i <= 12) || (i > 14)) {
-            $(this).css('border-left', '0px');
-        }
-        if (i == 6 || i == 13) {
-            $(this).css('border-top', '0px').css('border-bottom', '0px');
-        }
-    });
-}
-
-function generarColores($casillas, colores, color) {
-    for (let index = 0; index < $casillas.length; index++) {
-        colores.push(color);
-        color += 18;
-        if (color > 359)
-            color = 0;
-    }
-    let revertir = colores.slice(7, 13);
-    revertir.reverse();
-    revertir.forEach(function (elem, i) {
-        colores[i + 7] = elem;
-    });
-    return color;
 }
 
 function pantallaCompleta() {

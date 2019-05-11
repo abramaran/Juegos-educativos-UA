@@ -1,34 +1,3 @@
-nav {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 1em;
-}
-h1 {
-    font-size: 2em;
-    margin-top: 0%;
-}
-
-.flexbotones {
-    display: flex;
-    justify-content: space-around;
-}
-button {
-    border: 3px solid black;
-    border-radius: 5px;
-    background-color: wheat;
-    padding: 0.5em;
-    font-size: 1.1em;
-    font-family: 'Quicksand', sans-serif;
-    cursor: pointer;
-    transform: scale(1);
-    transition: all 0.5s;
-}
-button:hover {
-    transform: scale(1.15);
-}
-button:active {
-    transform: scale(0.85);
-}
 @keyframes bp {
     from {
       background-position:  198px 0;
@@ -41,7 +10,6 @@ button:active {
 
 body {
     margin-left: 0px;
-    font-family: 'Quicksand', sans-serif;
     background-image: url(memphis-mini.png);
     /*background-position: bottom;
     animation: 30s linear 0s infinite bp;*/

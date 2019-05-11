@@ -13,23 +13,26 @@
     <!-- JQUERY UI -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <script src="jquery.ui.touch-punch.min.js"></script>
+    <script src="../jquery.ui.touch-punch.min.js"></script>
     <!-- CONFETTI.JS -->
-    <script src="confetti.js"></script>
+    <script src="../confetti.js"></script>
     <!-- JQUERY MODAL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <!-- TIPOGRAFIA -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
+    <!-- COOKIES -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
     <link rel="stylesheet" type="text/css" media="screen" href="tablero.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../common.css">
     <script src="tablero.js"></script>
 </head>
 
 <body>
     <header>
         <nav>
-            <a href="/"><button>Volver</button></a>
+            <a href="../index.html"><button>Volver</button></a>
             <h1>Tablero</h1>
             <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
         </nav>
@@ -97,7 +100,7 @@
         <!-- MODALES -->
         <div id="use-landscape">
             <h2>Gira el dispositivo!</h2>
-            <img src="rotatePhone.gif" />
+            <img src="../rotatePhone.gif" />
         </div>
         <div id="modInstrucciones" class="modal">
             <h2>Instrucciones</h2>
@@ -107,7 +110,7 @@
                 <li>¡Llega hasta la casilla número veinte para ganar!</li>
             </ol>
             <span class="flexbotones">
-                <a href="/"><button>Volver</button></a>
+                <a href="../index.html"><button>Volver</button></a>
                 <a href="#" rel="modal:close" onclick="sonidoInstrucciones.pause();"><button>Empezar</button></a>
             </span>
         </div>
@@ -117,7 +120,7 @@
             <p>Has completado el minijuego.</p>
             <br>
             <span class="flexbotones">
-                    <a href="/"><button>Volver</button></a>
+                    <a href="../index.html"><button>Volver</button></a>
                     <a href="#" rel="modal:close"><button>Reiniciar</button></a>
             </span>
         </div>

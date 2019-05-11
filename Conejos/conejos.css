@@ -1,0 +1,43 @@
+h1 {
+    text-align: center;
+    font-size: 150%;
+}
+
+h2 {
+    text-align: center;
+    font-size: 3em;
+}
+
+h2 > span {
+    font-size: 1em;
+}
+
+div {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.zanahoria {
+    width: 5%;
+    height: auto;
+}
+
+.conejo {
+    width: 10%;
+    height: auto;
+    margin-bottom: 1%;
+}
+
+.circulo {
+    width: 15%;
+    height: auto;
+    padding-left: 2%;
+    padding-right: 2%;
+    max-width: 17%;
+    min-width: 12%;
+}
+
+.boton {
+    margin-top: 2%;
+}
