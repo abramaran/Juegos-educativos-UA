@@ -6,84 +6,122 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Tablero</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="tablero.css">
+
+    <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- JQUERY UI -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <script src="jquery.ui.touch-punch.min.js"></script>
+    <!-- CONFETTI.JS -->
+    <script src="confetti.js"></script>
+    <!-- JQUERY MODAL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <!-- TIPOGRAFIA -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="tablero.css">
     <script src="tablero.js"></script>
 </head>
 
 <body>
     <header>
         <nav>
-            <a>Volver</a>
+            <a href="/"><button>Volver</button></a>
             <h1>Tablero</h1>
-            <a onclick="pantallaCompleta()">Pantalla <br> completa</a>
+            <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
         </nav>
     </header>
     <main>
+        <div id="grid">
+            <div>
+                <img id="cubilete" src="cubiletemio.png" class="emphasis">
+                <div class="wrap">
+                    <div class="cube">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                        <div class="top"></div>
+                        <div class="bottom"></div>
+                        <div class="left"></div>
+                        <div class="right"></div>
+                    </div>
+                </div>
+                <div class="wrap">
+                    <div class="cube">
+                        <div class="front"></div>
+                        <div class="back"></div>
+                        <div class="top"></div>
+                        <div class="bottom"></div>
+                        <div class="left"></div>
+                        <div class="right"></div>
+                    </div>
+                </div>
+
+            </div>
+            <img src="peon.svg" alt="peon" id="peon" class="ui-widget-content"></img>
+            <section>
+                <div class="casilla" id="1">1</div>
+                <div class="casilla" id="2">2</div>
+                <div class="casilla" id="3">3</div>
+                <div class="casilla" id="4">4</div>
+                <div class="casilla" id="5">5</div>
+                <div class="casilla" id="6">6</div>
+
+                <div class="hueco"></div>
+                <div class="casilla" id="7">7</div>
+
+                <div class="casilla" id="13">13</div>
+                <div class="casilla" id="12">12</div>
+                <div class="casilla" id="11">11</div>
+                <div class="casilla" id="10">10</div>
+                <div class="casilla" id="9">9</div>
+                <div class="casilla" id="8">8</div>
+
+                <div class="casilla" id="14">14</div>
+                <div class="hueco"></div>
+
+                <div class="casilla" id="15">15</div>
+                <div class="casilla" id="16">16</div>
+                <div class="casilla" id="17">17</div>
+                <div class="casilla" id="18">18</div>
+                <div class="casilla" id="19">19</div>
+                <div class="casilla" id="20">20</div>
+            </section>
+            <!--<div>
+            <img id="cubilete" src="cubilete.png">
+        </div>-->
+        </div>
+
+        <!-- MODALES -->
         <div id="use-landscape">
             <h2>Gira el dispositivo!</h2>
             <img src="rotatePhone.gif" />
         </div>
-        <div>
-            <img id="cubilete" src="cubilete.png">
-            <div class="wrap">
-                <div class="cube">
-                    <div class="front"></div>
-                    <div class="back"></div>
-                    <div class="top"></div>
-                    <div class="bottom"></div>
-                    <div class="left"></div>
-                    <div class="right"></div>
-                </div>
-            </div>
-            <div class="wrap">
-                <div class="cube">
-                    <div class="front"></div>
-                    <div class="back"></div>
-                    <div class="top"></div>
-                    <div class="bottom"></div>
-                    <div class="left"></div>
-                    <div class="right"></div>
-                </div>
-            </div>
-
+        <div id="modInstrucciones" class="modal">
+            <h2>Instrucciones</h2>
+            <ol>
+                <li>Toca el cubilete para lanzar los dados.</li>
+                <li>Suma los dados y mueve el peón tantas casillas como corresponda.</li>
+                <li>¡Llega hasta la casilla número veinte para ganar!</li>
+            </ol>
+            <span class="flexbotones">
+                <a href="/"><button>Volver</button></a>
+                <a href="#" rel="modal:close" onclick="sonidoInstrucciones.pause();"><button>Empezar</button></a>
+            </span>
         </div>
-        <img src="peon.svg" alt="peon" id="peon" class="ui-widget-content"></img>
-        <section>
-            <div class="casilla" id="1">1</div>
-            <div class="casilla" id="2">2</div>
-            <div class="casilla" id="3">3</div>
-            <div class="casilla" id="4">4</div>
-            <div class="casilla" id="5">5</div>
-            <div class="casilla" id="6">6</div>
 
-            <div class="hueco"></div>
-            <div class="casilla" id="7">7</div>
+        <div id="modVictoria" class="modal">
+            <h2>¡Felicidades!</h2>
+            <p>Has completado el minijuego.</p>
+            <br>
+            <span class="flexbotones">
+                    <a href="/"><button>Volver</button></a>
+                    <a href="#" rel="modal:close"><button>Reiniciar</button></a>
+            </span>
+        </div>
 
-            <div class="casilla" id="13">13</div>
-            <div class="casilla" id="12">12</div>
-            <div class="casilla" id="11">11</div>
-            <div class="casilla" id="10">10</div>
-            <div class="casilla" id="9">9</div>
-            <div class="casilla" id="8">8</div>
-
-            <div class="casilla" id="14">14</div>
-            <div class="hueco"></div>
-
-            <div class="casilla" id="15">15</div>
-            <div class="casilla" id="16">16</div>
-            <div class="casilla" id="17">17</div>
-            <div class="casilla" id="18">18</div>
-            <div class="casilla" id="19">19</div>
-            <div class="casilla" id="20">20</div>
-        </section>
-        <!--<div>
-            <img id="cubilete" src="cubilete.png">
-        </div>-->
     </main>
 </body>
 

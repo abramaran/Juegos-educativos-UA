@@ -1,13 +1,56 @@
 nav {
     display: flex;
     justify-content: space-between;
+    padding-left: 1em;
+}
+h1 {
+    font-size: 2em;
+    margin-top: 0%;
 }
 
+.flexbotones {
+    display: flex;
+    justify-content: space-around;
+}
+button {
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: wheat;
+    padding: 0.5em;
+    font-size: 1.1em;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+    transform: scale(1);
+    transition: all 0.5s;
+}
+button:hover {
+    transform: scale(1.15);
+}
+button:active {
+    transform: scale(0.85);
+}
+@keyframes bp {
+    from {
+      background-position:  198px 0;
+    }
+    
+    to {
+      background-position:  0 198px;
+    }
+}
+
+body {
+    margin-left: 0px;
+    font-family: 'Quicksand', sans-serif;
+    background-image: url(memphis-mini.png);
+    /*background-position: bottom;
+    animation: 30s linear 0s infinite bp;*/
+}
 a {
     cursor: pointer;
 }
 
-main {
+#grid {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -48,11 +91,11 @@ section + div {
 }
 
 .ui-state-active {
-    background-color: lime;
+    background-color: lime !important;
 }
 
 .ui-state-hover {
-    background-color: whitesmoke;
+    background-color: whitesmoke !important;
 }
 
 .hueco {
@@ -130,6 +173,35 @@ section + div {
     }
 }
 
+@keyframes emphasis {
+    0% {
+        transform: scale(1);
+        filter: opacity(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+        filter: opacity(0.9);
+    }
+}
+
+@keyframes rainbow {
+    from {
+        filter: hue-rotate(0deg);
+    }
+    to {
+        filter: hue-rotate(359deg);
+    }
+}
+
+.emphasis {
+    animation: emphasis 0.5s ease-in-out 0s infinite alternate;
+}
+
+.rainbow {
+    animation: rainbow 2s linear 0s infinite forwards;
+}
+
 .cube-anim {
     animation: spin 1.5s ease-out forwards;
     animation-delay: var(--delayDado, 0.5s);
@@ -144,6 +216,6 @@ section + div {
     display: none;
 }
 @media screen and (orientation: portrait) {
-    section, #cubilete { display: none; }
+    #grid { display: none; }
     #use-landscape { display: block; }
  }

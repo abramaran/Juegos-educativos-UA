@@ -2,6 +2,10 @@ var casillasAvanzadas = 0;
 const casillasTotales = 20;
 var parteJuego = 'tirar';
 var sonidoCubilete = new Audio('agitarDados.mp3');
+var sonidoInstrucciones = new Audio('instrucciones-tablero.ogg');
+var sonidoFelicidades = new Audio('minijuego-completado.ogg');
+var sonidoCorrecto = new Audio('correctosuave.wav');
+var sonidoVictoria = new Audio('victoria.wav');
 
 $(function () {
     let color = Math.floor(Math.random() * 359);
@@ -14,21 +18,48 @@ $(function () {
 
     bordesCasillas($casillas, colores);
     $('#cubilete').click(tirarDados).on('dragstart', function (event) { event.preventDefault(); }); //evitar que arrastren la imagen
+    $('#modVictoria').on($.modal.BEFORE_CLOSE, function (event, modal) {
+        stopConfetti();
+        location.reload();
+    });
+    $('#modVictoria').on($.modal.OPEN, function (event, modal) {
+        startConfetti();
+    });
+
+    $('#modInstrucciones').modal({showClose: false});
+    sonidoInstrucciones.play();
 });
 
 function hacerDroppable(numero) {
-    $('#' + casillasAvanzadas).droppable('disable');
-    $('#' + numero).droppable({
+    $('.casilla').droppable({
         classes: {
-            "ui-droppable-active": "ui-state-active",
+            //"ui-droppable-active": "ui-state-active", //Este da la solucion
             "ui-droppable-hover": "ui-state-hover"
         },
         drop: function (event, ui) {
-            $(this)
-                .addClass("ui-state-highlight")
-                .find("p")
-                .html("Dropped!");
-            parteJuego = 'tirar';
+            if (this.id == numero) {
+                $(this)
+                    .addClass("ui-state-highlight")
+                    .find("p")
+                    .html("Dropped!");
+                if (numero < 20) {
+                    parteJuego = 'tirar';
+                    sonidoCorrecto.play();
+                    $('#cubilete').addClass('emphasis');
+                } else {
+                    sonidoVictoria.play();
+                    sonidoVictoria.addEventListener('ended', function() {
+                        sonidoFelicidades.play();
+                    });
+                    setTimeout(function() {
+                        $('#modVictoria').modal({ fadeDuration: 500 });
+                    }, 2500);
+                }
+
+                $('#peon').effect("bounce", { times: 2 });
+            } else {
+                ui.draggable.animate(ui.draggable.data("uiDraggable").originalPosition, "slow");
+            }
         }
     });
 }
@@ -65,9 +96,55 @@ function tirarDados(e) {
         let cube = document.querySelectorAll('.cube');
         let wrap = document.querySelectorAll('.wrap');
         let cubilete = $('#cubilete');
+        cubilete.removeClass('emphasis');
+        resetearAnimacion(cubilete, wrap, cube);
+        let { valorA, valorB } = valoresDados();
+        recolocaDados(valorA, valorB);
+        hacerDroppable(casillasAvanzadas + valorA + valorB);
+        casillasAvanzadas += valorA + valorB;
+        playAnimacion(cubilete, cube, wrap);
+        parteJuego = 'mover';
+    }
+
+    function playAnimacion(cubilete, cube, wrap) {
+        sonidoCubilete.play();
+        cubilete.effect("shake", { times: 4, direction: 'up' }, 2000);
+        cubilete.attr("src","cubileteesfuerzo.png");
+        setTimeout(function() {
+            cubilete.attr("src","cubiletesalir.png");
+            setTimeout(function() {
+                cubilete.attr("src","cubiletemio.png");
+            }, 2000);
+        }, 1500);
+        cube[0].classList.add('cube-anim');
+        wrap[0].classList.add('wrap-anim');
+        cube[1].classList.add('cube-anim');
+        wrap[1].classList.add('wrap-anim');
+    }
+
+    function valoresDados() {
+        let valorA = Math.floor(Math.random() * 6 + 1);
+        let valorB = Math.floor(Math.random() * 6 + 1);
+
+        if (casillasAvanzadas + valorA + valorB == casillasTotales - 1) {
+            console.log('henlo');
+            if (valorA > 1) {
+                valorA--;
+            } else if (valorB > 1) {
+                valorB--;
+            } else {
+                valorA++;
+            }
+        } else if (casillasAvanzadas + valorA + valorB > casillasTotales) { //Comprobar que el niño no se pueda quedar a una casilla de la meta.
+            valorA = Math.floor(Math.random() * (casillasTotales - 1 - casillasAvanzadas) + 1);
+            valorB = casillasTotales - casillasAvanzadas - valorA;
+        }
+        return { valorA, valorB };
+    }
+
+    function resetearAnimacion(cubilete, wrap, cube) {
         let anchoCubilete = cubilete.width();
         let anchoWrap = $('.wrap').width();
-
         for (let i = 0; i < wrap.length; i++) {
             const icube = cube[i];
             const iwrap = wrap[i];
@@ -81,25 +158,6 @@ function tirarDados(e) {
             iwrap.style.setProperty('--delayDado', (Math.random() * 0.7 + 1.5) + 's');
             icube.offsetWidth;
         }
-        let valorA = Math.floor(Math.random() * 6 + 1);
-        let valorB = Math.floor(Math.random() * 6 + 1);
-/*         if (casillasAvanzadas + valorA + valorB == casillasTotales - 1) {    //Comprobar que el niño no se pueda quedar a una casilla de la meta.
-
-        } */
-        if (casillasAvanzadas + valorA + valorB > casillasTotales) {    //Comprobar que el niño no se pueda quedar a una casilla de la meta.
-            valorA = Math.floor(Math.random() * (casillasTotales - 1 - casillasAvanzadas) + 1);
-            valorB = casillasTotales - casillasAvanzadas - valorA;
-        }
-        recolocaDados(valorA, valorB);
-        hacerDroppable(casillasAvanzadas + valorA + valorB);
-        casillasAvanzadas += valorA + valorB;
-        sonidoCubilete.play();
-        $('#cubilete').effect("shake", { times: 4, direction: 'up' }, 2000);
-        cube[0].classList.add('cube-anim');
-        wrap[0].classList.add('wrap-anim');
-        cube[1].classList.add('cube-anim');
-        wrap[1].classList.add('wrap-anim');
-        parteJuego = 'mover';
     }
 }
 
