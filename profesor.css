@@ -1,0 +1,9 @@
+main, section>div {
+    display: flex;
+    justify-content: space-around;
+}
+
+#falloCaptcha {
+    visibility: hidden;
+    color: red;
+}

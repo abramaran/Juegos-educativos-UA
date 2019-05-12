@@ -150,7 +150,7 @@ $(document).ready(function() {
         }
     });
     $('#pesas, #balanza').hide();
-    $('#modInstrucciones').modal({ showClose: false });
+    $('#modInstrucciones').modal({ showClose: false, clickClose: true });
     sonidoInstrucciones.play();
 }
 );

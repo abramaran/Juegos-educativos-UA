@@ -1,0 +1,121 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- JQUERY UI -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="../jquery.ui.touch-punch.min.js"></script>
+    <!-- JQUERY MODAL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <!-- TIPOGRAFIA -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
+    <!-- COOKIES -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="profesor.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../common.css">
+    <script src="profesor.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="../index.html"><button>Volver</button></a>
+            <h1>Zona del profesor</h1>
+            <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Tablero</h2>
+            <h3><i>Minijuego que practica la suma.</i></h3>
+            <div>
+                <div>
+                    <h4>Veces jugado</h4>
+                    <span id="tJugado">0</span>
+                </div>
+                <div>
+                    <h4>Aciertos</h4>
+                    <span id="tAciertos">0</span>
+                </div>
+                <div>
+                    <h4>Fallos</h4>
+                    <span id="tFallos">0</span>
+                </div>
+            </div>
+            <br>
+            <span class="flexbotones">
+                <button onclick="borrarCookies('tablero');">Borrar datos</button>
+            </span>
+        </section>
+        <section>
+            <h2>Balanza</h2>
+            <h3><i>Minijuego que practica la suma y la resta.</i></h3>
+            <div>
+                <div>
+                    <h4>Veces jugado</h4>
+                    <span id="bJugado">0</span>
+                </div>
+                <div>
+                    <h4>Aciertos</h4>
+                    <span id="bAciertos">0</span>
+                </div>
+                <div>
+                    <h4>Fallos</h4>
+                    <span id="bFallos">0</span>
+                </div>
+            </div>
+            <br>
+            <span class="flexbotones">
+                <button onclick="borrarCookies('balanza');">Borrar datos</button>
+            </span>
+        </section>
+        <section>
+            <h2>Conejos</h2>
+            <h3><i>Minijuego que practica la división.</i></h3>
+            <div>
+                <div>
+                    <h4>Veces jugado</h4>
+                    <span id="cJugado">0</span>
+                </div>
+                <div>
+                    <h4>Aciertos</h4>
+                    <span id="cAciertos">0</span>
+                </div>
+                <div>
+                    <h4>Fallos</h4>
+                    <span id="cFallos">0</span>
+                </div>
+            </div>
+            <br>
+            <span class="flexbotones">
+                <button onclick="borrarCookies('conejos');">Borrar datos</button>
+            </span>
+        </section>
+    </main>
+    <div id="modCaptcha" class="modal">
+        <h2>Zona del profesor</h2>
+        <span id="ecuacion">x/2 = 12</span>
+        <input type="text" name="captcha" id="captcha">
+        <button id="validar">Validar</button>
+        <br>
+        <span id="falloCaptcha"><i>Inténtalo de nuevo</i></span>
+        <span class="flexbotones">
+            <a href="../index.html"><button>Volver</button></a>
+        </span>
+    </div>
+
+</body>
+
+</html>
