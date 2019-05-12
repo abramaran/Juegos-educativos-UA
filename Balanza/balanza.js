@@ -191,3 +191,13 @@ function modalVictoria() {
         $('#pesas, #balanza').fadeOut(500);
     }, 2500);
 }
+
+function pantallaCompleta() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}
