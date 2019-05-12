@@ -153,7 +153,12 @@ $(document).ready(function() {
         }
     });
     $('#pesas, #balanza').hide();
-    $('#modInstrucciones').modal({ showClose: false, clickClose: true });
+    $('#modInstrucciones').modal({ showClose: false, clickClose: true }).on($.modal.BEFORE_CLOSE, function (event, modal) {
+        let jugado = Cookies.get('balanzaJugado');
+        if (!jugado) jugado = 0;
+        Cookies.set('balanzaJugado', ++jugado, { expires: 30 });
+    });
+;;
     sonidoInstrucciones.play();
 }
 );
@@ -175,9 +180,18 @@ function comprobarResultado(pesa) {
 
     if(pesa == (numTotal - numSuma))
         modalVictoria();
+    else {
+        let fallos = Cookies.get('balanzaFallos');
+        if (!fallos) fallos = 0;
+        Cookies.set('balanzaFallos', ++fallos, { expires: 30 });
+    }
 }
 
 function modalVictoria() {
+    let aciertos = Cookies.get('balanzaAciertos');
+    if (!aciertos) aciertos = 0;
+    Cookies.set('balanzaAciertos', ++aciertos, { expires: 30 });
+
     sonidoVictoria.play();
     sonidoVictoria.addEventListener('ended', function () {
         sonidoFelicidades.play();

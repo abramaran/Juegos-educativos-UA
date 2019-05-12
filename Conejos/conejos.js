@@ -62,6 +62,9 @@ function contarCantidad() {
     
     } else {
         $('#modIncorrecto').modal();
+        let fallos = Cookies.get('conejosFallos');
+        if (!fallos) fallos = 0;
+        Cookies.set('conejosFallos', ++fallos, { expires: 30 });
     }
         
 }
@@ -103,7 +106,12 @@ $(document).ready(function() {
             $(ui.draggable).css({ "background": "yellow" });            
         }
     });
-    $('#modInstrucciones').modal({ showClose: false });
+    $('#modInstrucciones').modal({ showClose: false }).on($.modal.BEFORE_CLOSE, function (event, modal) {
+        let jugado = Cookies.get('conejosJugado');
+        if (!jugado) jugado = 0;
+        Cookies.set('conejosJugado', ++jugado, { expires: 30 });
+    });
+;;
     sonidoInstrucciones.play();
 });
 
@@ -126,6 +134,10 @@ function reiniciar() {
 }
 
 function modalVictoria() {
+    let aciertos = Cookies.get('conejosAciertos');
+    if (!aciertos) aciertos = 0;
+    Cookies.set('conejosAciertos', ++aciertos, { expires: 30 });
+
     sonidoVictoria.play();
     sonidoVictoria.addEventListener('ended', function () {
         sonidoFelicidades.play();

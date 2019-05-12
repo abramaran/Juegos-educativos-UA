@@ -21,7 +21,12 @@ $(function () {
     bordesCasillas($casillas, colores);
     $('#cubilete').click(tirarDados).on('dragstart', function (event) { event.preventDefault(); }); //evitar que arrastren la imagen
 
-    $('#modInstrucciones').modal({ showClose: false });
+    $('#modInstrucciones').modal({ showClose: false }).on($.modal.BEFORE_CLOSE, function (event, modal) {
+        let jugado = Cookies.get('tableroJugado');
+        if (!jugado) jugado = 0;
+        Cookies.set('tableroJugado', ++jugado, { expires: 30 });
+    });
+;
     sonidoInstrucciones.play();
 
     // ---------- Funciones privadas -------------------
@@ -65,7 +70,7 @@ function hacerDroppable(numero) {
                 $(this).addClass("ui-state-highlight").find("p").html("Dropped!");
                 let aciertos = Cookies.get('tableroAciertos');
                 if (!aciertos) aciertos = 0;
-                Cookies.set('tableroAciertos', ++aciertos, { expires: 7 });
+                Cookies.set('tableroAciertos', ++aciertos, { expires: 30 });
 
                 if (numero < 20) {
                     parteJuego = 'tirar';
@@ -81,7 +86,7 @@ function hacerDroppable(numero) {
                 sonidoIncorrecto.play();
                 let fallos = Cookies.get('tableroFallos');
                 if (!fallos) fallos = 0;
-                Cookies.set('tableroFallos', ++fallos, { expires: 7 });
+                Cookies.set('tableroFallos', ++fallos, { expires: 30 });
             }
         }
     });
