@@ -37,6 +37,9 @@ $(document).ready(function() {
     var numSuma = parseFloat($("#pesoSuma").attr("src").replace(/[^0-9]+/g, ''));
     var numTotal = parseFloat($("#pesoTotal").attr("src").replace(/[^0-9]+/g, ''));
 
+    //La ecuación
+    $("#divEcuacion").append("<h2>" + numSuma + " <span class='fas fa-plus'></span> ? = " + numTotal + "</h2>");
+
     //Para nivelar las balanzas, hay que repartir un margen del 20% de manera proporcional entre las pesas
     //Aún así, ya hay un margin-top fijo mínimo de 8%
     var marginSuma = 5 + numSuma/(numSuma+numTotal) * 20;

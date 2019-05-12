@@ -9,6 +9,7 @@ h1 {
 h2 {
     text-align: center;
     font-size: 3em;
+    margin-top: 1%;
 }
 
 h2 > span {
@@ -22,18 +23,18 @@ div {
 }
 
 .zanahoria {
-    width: 5%;
+    width: 3.5%;
     height: auto;
 }
 
 .conejo {
-    width: 10%;
+    width: 8%;
     height: auto;
     margin-bottom: 1%;
 }
 
 .circulo {
-    width: 15%;
+    width: 14%;
     height: auto;
     padding-left: 2%;
     padding-right: 2%;

@@ -36,8 +36,8 @@ function prepararDivision() {
         if(ancho < 10) {
             ancho = 10;
 
-        } else if (ancho > 22) {
-            ancho = 22;
+        } else if (ancho > 20) {
+            ancho = 20;
         }
 
         $(".circulo").css({"width" : ancho + "%"})
@@ -46,15 +46,7 @@ function prepararDivision() {
     }
 }
 
-function contarCantidad(circulo) {
-
-    var idConejo = $(circulo).attr("id").replace(/[^0-9]+/g, '');
-
-    if($(circulo).children().length == cociente) {
-        $("#" + idConejo).attr("src", "conejoFeliz.png");
-    } else {
-        $("#" + idConejo).attr("src", "conejo.png");
-    }
+function contarCantidad() {
 
     completado = true;
 
@@ -63,7 +55,13 @@ function contarCantidad(circulo) {
             completado = false;
 
     if(completado) {
+        for(var i=0; i<$("#divConejos").children().length; i++)
+            $('#divConejos').children().eq(i).attr("src", "conejoFeliz.png"); 
 
+        modalVictoria();
+    
+    } else {
+        $('#modIncorrecto').modal();
     }
         
 }
@@ -88,8 +86,6 @@ $(document).ready(function() {
             if(!$(ui.draggable).hasClass("zanahoriaDropped")) {
                 $(this).append("<p hidden></p>");
                 $(ui.draggable).addClass("zanahoriaDropped");
-
-                contarCantidad(this);
             }
         },
 
@@ -101,7 +97,6 @@ $(document).ready(function() {
         out: function(event, ui) {
             if($(ui.draggable).hasClass("zanahoriaDropped")) {
                 $(this).children().last().remove();
-                contarCantidad(this);
                 $(ui.draggable).removeClass("zanahoriaDropped");
             }
 
