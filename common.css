@@ -33,3 +33,12 @@ button:active {
 body {
     font-family: 'Quicksand', sans-serif;
 }
+
+#use-landscape {
+    display: none;
+}
+
+@media screen and (orientation: portrait) {
+    main { display: none; }
+    #use-landscape { display: block; }
+ }

@@ -36,30 +36,57 @@
         </nav>
     </header>
     <main>
-    <div id="pesas">
-        <img id="1" class="draggable" src="Pesas/1.png"></img>
-        <img id="2" class="draggable" src="Pesas/2.png"></img>
-        <img id="3" class="draggable" src="Pesas/3.png"></img>
-        <img id="4" class="draggable" src="Pesas/4.png"></img>
-        <img id="5" class="draggable" src="Pesas/5.png"></img>
-        <img id="6" class="draggable" src="Pesas/6.png"></img>
-        <img id="7" class="draggable" src="Pesas/7.png"></img>
-        <img id="8" class="draggable" src="Pesas/8.png"></img>
-        <img id="9" class="draggable" src="Pesas/9.png"></img>
-    </div>
+        <div id="pesas">
+            <img id="1" class="draggable" src="Pesas/1.png"></img>
+            <img id="2" class="draggable" src="Pesas/2.png"></img>
+            <img id="3" class="draggable" src="Pesas/3.png"></img>
+            <img id="4" class="draggable" src="Pesas/4.png"></img>
+            <img id="5" class="draggable" src="Pesas/5.png"></img>
+            <img id="6" class="draggable" src="Pesas/6.png"></img>
+            <img id="7" class="draggable" src="Pesas/7.png"></img>
+            <img id="8" class="draggable" src="Pesas/8.png"></img>
+            <img id="9" class="draggable" src="Pesas/9.png"></img>
+        </div>
 
-    <div id="balanza">
-        <img id="paloBalanza" src="balanza.png">
-        <img id="pesoSuma" src="Peso Suma/S3.png"></img>
-        <img id="pesoTotal" src="Peso Total/T9.png"></img>
-        </img>
-    </div>
+        <div id="balanza">
+            <img id="paloBalanza" src="balanza.png">
+            <img id="pesoSuma" src="Peso Suma/S3.png"></img>
+            <img id="pesoTotal" src="Peso Total/T9.png"></img>
+            </img>
+        </div>
 
-    <div style="text-align:center; grid-column: 1/3">
-        <button class="boton">Ayuda</button>
-        <a href="../index.html"><button class="boton">Volver</button></a>
-    </div>
+        <div style="text-align:center; grid-column: 1/3">
+            <button class="boton">Ayuda</button>
+            <a href="../index.html"><button class="boton">Volver</button></a>
+        </div>
     </main>
+
+    <!-- MODALES -->
+    <div id="use-landscape">
+        <h2>Gira el dispositivo!</h2>
+        <img src="../rotatePhone.gif" />
+    </div>
+    <div id="modInstrucciones" class="modal" onclick="$('#pesas, #balanza').show();">
+        <h2>Instrucciones</h2>
+        <p>Arrastra a la balanza la pesa que falta para que ambos lados sumen lo mismo.
+        </p>
+        <span class="flexbotones">
+            <a href="../index.html"><button>Volver</button></a>
+            <a href="#" rel="modal:close" onclick="sonidoInstrucciones.pause();"><button>Empezar</button></a>
+        </span>
+    </div>
+
+    <div id="modVictoria" class="modal">
+        <h2>¡Felicidades!</h2>
+        <p>Has completado el minijuego.</p>
+        <br>
+        <span class="flexbotones">
+            <!-- Ver si dejamos los sonidos en hover o no-->
+            <a href="../index.html" onmouseover="sonidoMenuPrincipal.play();"><button>Menú principal</button></a>
+            <a href="#" rel="modal:close" onmouseover="sonidoReiniciar.play();"><button>Reiniciar</button></a>
+        </span>
+    </div>
+
 </body>
 
 </html>

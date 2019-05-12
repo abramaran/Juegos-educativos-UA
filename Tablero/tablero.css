@@ -179,11 +179,3 @@ section + div {
     animation: translate 1.5s ease forwards;
     animation-delay: var(--delayDado, 0.5s);
 }
-
-#use-landscape {
-    display: none;
-}
-@media screen and (orientation: portrait) {
-    #grid { display: none; }
-    #use-landscape { display: block; }
- }

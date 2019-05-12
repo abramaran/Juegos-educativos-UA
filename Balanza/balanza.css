@@ -1,10 +1,5 @@
-@font-face {
-    font-family: Kid_Marker;
-    src: url("../Kid_Marker.ttf") format('truetype');}
-
 h1 {
     text-align: center;
-    font-family: "Kid_Marker";
     font-size: 150%;
     grid-column: 1/3;
 }
@@ -77,4 +72,8 @@ main {
     margin-right: 28%;
     position: absolute;
     margin-top: 21%;
+}
+
+.modal {
+    z-index: 999;
 }

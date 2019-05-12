@@ -1,6 +1,12 @@
 var cociente;
 var completado = true;
 
+var sonidoInstrucciones = new Audio('instrucciones-conejos.ogg');
+var sonidoFelicidades = new Audio('../minijuego-completado.ogg');
+var sonidoCorrecto = new Audio('../correctosuave.wav');
+var sonidoIncorrecto = new Audio('../vuelveaintentarlo.ogg');
+var sonidoVictoria = new Audio('../victoria.wav');
+
 function prepararDivision() {
     var maximo = 20;
     var dividendo = Math.floor(maximo*Math.random());
@@ -56,10 +62,11 @@ function contarCantidad(circulo) {
         if($('#divCirculos').children().eq(i).children().length != cociente)
             completado = false;
 
-    if(completado)
-        alert("Oleee el mejor");
-}
+    if(completado) {
 
+    }
+        
+}
 
 $(document).ready(function() {
 
@@ -101,7 +108,8 @@ $(document).ready(function() {
             $(ui.draggable).css({ "background": "yellow" });            
         }
     });
-
+    $('#modInstrucciones').modal({ showClose: false });
+    sonidoInstrucciones.play();
 });
 
 //Se activa cada vez que se cambia el tamaño de la ventana
@@ -120,6 +128,23 @@ function reiniciar() {
     $(".zanahoria").removeClass("zanahoriaDropped");
     $(".circulo").empty(); //borrar todos los hijos de los círculos
     $(".conejo").attr("src", "conejo.png");
+}
+
+function modalVictoria() {
+    sonidoVictoria.play();
+    sonidoVictoria.addEventListener('ended', function () {
+        sonidoFelicidades.play();
+    });
+    $('#modVictoria').on($.modal.OPEN, function (event, modal) {
+        startConfetti();
+    });
+    $('#modVictoria').on($.modal.BEFORE_CLOSE, function (event, modal) {
+        stopConfetti();
+        location.reload();
+    });
+    setTimeout(function () {
+        $('#modVictoria').modal({ fadeDuration: 500 });
+    }, 2500);
 }
 
 function pantallaCompleta() {

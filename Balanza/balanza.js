@@ -1,3 +1,11 @@
+var sonidoInstrucciones = new Audio('instrucciones-balanza.ogg');
+var sonidoFelicidades = new Audio('../minijuego-completado.ogg');
+var sonidoCorrecto = new Audio('../correctosuave.wav');
+var sonidoIncorrecto = new Audio('../vuelveaintentarlo.ogg');
+var sonidoVictoria = new Audio('../victoria.wav');
+var sonidoMenuPrincipal = new Audio('../menu-principal.ogg');
+var sonidoReiniciar = new Audio('../reiniciar.ogg');
+
 function cargarImagenes() {
     var imagenesSuma = [["Peso Suma/S1.png", 1], ["Peso Suma/S2.png", 2], ["Peso Suma/S3.png", 3], ["Peso Suma/S4.png", 4],
                         ["Peso Suma/S5.png", 5], ["Peso Suma/S6.png", 6], ["Peso Suma/S7.png", 7], ["Peso Suma/S8.png", 8]];
@@ -141,7 +149,11 @@ $(document).ready(function() {
             });
         }
     });
-});
+    $('#pesas, #balanza').hide();
+    $('#modInstrucciones').modal({ showClose: false });
+    sonidoInstrucciones.play();
+}
+);
 
 
 //Cada vez que cambia el tamaño de la pantalla, se vuelven a hacer los cálculos necesarios para recolocar la pesa suelta
@@ -159,5 +171,23 @@ function comprobarResultado(pesa) {
     var numTotal = parseFloat($("#pesoTotal").attr("src").replace(/[^0-9]+/g, ''));
 
     if(pesa == (numTotal - numSuma))
-        alert("Oleee el mejor");
+        modalVictoria();
+}
+
+function modalVictoria() {
+    sonidoVictoria.play();
+    sonidoVictoria.addEventListener('ended', function () {
+        sonidoFelicidades.play();
+    });
+    $('#modVictoria').on($.modal.OPEN, function (event, modal) {
+        startConfetti();
+    });
+    $('#modVictoria').on($.modal.BEFORE_CLOSE, function (event, modal) {
+        stopConfetti();
+        location.reload();
+    });
+    setTimeout(function () {
+        $('#modVictoria').modal({ fadeDuration: 500 });
+        $('#pesas, #balanza').fadeOut(500);
+    }, 2500);
 }

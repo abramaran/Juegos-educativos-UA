@@ -37,7 +37,7 @@
             <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
         </nav>
     </header>
-
+    <main>
     <div id="divZanahorias"></div>
 
     <div id="divConejos"></div>
@@ -47,8 +47,32 @@
     <div>
         <button class="boton">Ayuda</button>
         <button class="boton" onclick="reiniciar()">Reiniciar</button>
-        <button class="boton">Atrás</button>
     </div>
+    </main>
+    <!-- MODALES -->
+    <div id="use-landscape">
+        <h2>Gira el dispositivo!</h2>
+        <img src="../rotatePhone.gif" />
+    </div>
+    <div id="modInstrucciones" class="modal">
+        <h2>Instrucciones</h2>
+        <p>Resuelve la división y reparte las zanahorias entre los conejos.</p>
+        <span class="flexbotones">
+            <a href="../index.html"><button>Volver</button></a>
+            <a href="#" rel="modal:close" onclick="sonidoInstrucciones.pause();"><button>Empezar</button></a>
+        </span>
+    </div>
+
+    <div id="modVictoria" class="modal">
+        <h2>¡Felicidades!</h2>
+        <p>Has completado el minijuego.</p>
+        <br>
+        <span class="flexbotones">
+            <a href="../index.html"><button>Volver</button></a>
+            <a href="#" rel="modal:close"><button>Reiniciar</button></a>
+        </span>
+    </div>
+
 
 </body>
 

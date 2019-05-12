@@ -20,13 +20,6 @@ $(function () {
 
     bordesCasillas($casillas, colores);
     $('#cubilete').click(tirarDados).on('dragstart', function (event) { event.preventDefault(); }); //evitar que arrastren la imagen
-    $('#modVictoria').on($.modal.BEFORE_CLOSE, function (event, modal) {
-        stopConfetti();
-        location.reload();
-    });
-    $('#modVictoria').on($.modal.OPEN, function (event, modal) {
-        startConfetti();
-    });
 
     $('#modInstrucciones').modal({ showClose: false });
     sonidoInstrucciones.play();
@@ -79,13 +72,7 @@ function hacerDroppable(numero) {
                     sonidoCorrecto.play();
                     $('#cubilete').addClass('emphasis');
                 } else {
-                    sonidoVictoria.play();
-                    sonidoVictoria.addEventListener('ended', function () {
-                        sonidoFelicidades.play();
-                    });
-                    setTimeout(function () {
-                        $('#modVictoria').modal({ fadeDuration: 500 });
-                    }, 2500);
+                    modalVictoria();
                 }
 
                 $('#peon').effect("bounce", { times: 2 }).draggable('disable');
@@ -197,6 +184,23 @@ function tirarDados(e) {
             icube.offsetWidth;
         }
     }
+}
+
+function modalVictoria() {
+    sonidoVictoria.play();
+    sonidoVictoria.addEventListener('ended', function () {
+        sonidoFelicidades.play();
+    });
+    $('#modVictoria').on($.modal.OPEN, function (event, modal) {
+        startConfetti();
+    });
+    $('#modVictoria').on($.modal.BEFORE_CLOSE, function (event, modal) {
+        stopConfetti();
+        location.reload();
+    });
+    setTimeout(function () {
+        $('#modVictoria').modal({ fadeDuration: 500 });
+    }, 2500);
 }
 
 function pantallaCompleta() {
