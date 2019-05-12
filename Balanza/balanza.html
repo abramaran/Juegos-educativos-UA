@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Minijuego resta</title>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -36,6 +37,8 @@
         </nav>
     </header>
     <main>
+        <div id="divEcuacion"></div>
+
         <div id="pesas">
             <img id="1" class="draggable" src="Pesas/1.png"></img>
             <img id="2" class="draggable" src="Pesas/2.png"></img>
@@ -54,11 +57,6 @@
             <img id="pesoTotal" src="Peso Total/T9.png"></img>
             </img>
         </div>
-
-        <div style="text-align:center; grid-column: 1/3">
-            <button class="boton">Ayuda</button>
-            <a href="../index.html"><button class="boton">Volver</button></a>
-        </div>
     </main>
 
     <!-- MODALES -->
@@ -67,7 +65,7 @@
         <img src="../rotatePhone.gif" />
     </div>
     <div id="modInstrucciones" class="modal" onclick="$('#pesas, #balanza').show();">
-        <h2>Instrucciones</h2>
+        <h3>Instrucciones</h3>
         <p>Arrastra a la balanza la pesa que falta para que ambos lados sumen lo mismo.
         </p>
         <span class="flexbotones">
@@ -77,7 +75,7 @@
     </div>
 
     <div id="modVictoria" class="modal">
-        <h2>¡Felicidades!</h2>
+        <h3>¡Felicidades!</h3>
         <p>Has completado el minijuego.</p>
         <br>
         <span class="flexbotones">

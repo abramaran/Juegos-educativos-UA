@@ -45,7 +45,7 @@
     <div id="divCirculos"></div><br>
 
     <div>
-        <button class="boton">Ayuda</button>
+        <button class="boton" onclick="contarCantidad()">Corregir</button>
         <button class="boton" onclick="reiniciar()">Reiniciar</button>
     </div>
     </main>
@@ -61,6 +61,11 @@
             <a href="../index.html"><button>Volver</button></a>
             <a href="#" rel="modal:close" onclick="sonidoInstrucciones.pause();"><button>Empezar</button></a>
         </span>
+    </div>
+
+    <div id="modIncorrecto" class="modal">
+        <h3>Inténtalo de nuevo</h3>
+        <p>No has repartido bien las zanahorias. Piensa otra vez cuál es el resultado de la división.</p>
     </div>
 
     <div id="modVictoria" class="modal">
