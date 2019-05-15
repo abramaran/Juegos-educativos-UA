@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minijuego resta</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -61,16 +62,16 @@
 
     <!-- MODALES -->
     <div id="use-landscape">
-        <h2>Gira el dispositivo!</h2>
+        <h2>¡Gira el dispositivo!</h2>
         <img src="../rotatePhone.gif" />
     </div>
-    <div id="modInstrucciones" class="modal" onclick="$('#pesas, #balanza').show();">
+    <div id="modInstrucciones" class="modal">
         <h3>Instrucciones</h3>
         <p>Arrastra a la balanza la pesa que falta para que ambos lados sumen lo mismo.
         </p>
         <span class="flexbotones">
             <a href="../index.html"><button>Volver</button></a>
-            <a href="#" rel="modal:close" onclick="sonidoInstrucciones.pause();"><button>Empezar</button></a>
+            <a href="#" rel="modal:close"><button>Empezar</button></a>
         </span>
     </div>
 
@@ -80,8 +81,8 @@
         <br>
         <span class="flexbotones">
             <!-- Ver si dejamos los sonidos en hover o no-->
-            <a href="../index.html" onmouseover="sonidoMenuPrincipal.play();"><button>Menú principal</button></a>
-            <a href="#" rel="modal:close" onmouseover="sonidoReiniciar.play();"><button>Reiniciar</button></a>
+            <a href="../index.html"><button>Menú principal</button></a>
+            <a href="#" rel="modal:close"><button>Reiniciar</button></a>
         </span>
     </div>
 

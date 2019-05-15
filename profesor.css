@@ -1,9 +1,36 @@
 main, section>div {
     display: flex;
     justify-content: space-around;
+    align-items: center;
+}
+main {
+    padding-top: 5vh;
 }
 
+section {
+    padding: 1em;
+}
+
+section >div {
+    text-align: center;
+    padding-bottom: 1em;
+}
 #falloCaptcha {
     visibility: hidden;
     color: red;
+}
+
+section, section > div {
+    border: 10px solid rgba(255,255,255,.8);
+    border-image: url("borde-pizarra.png") 20;
+}
+
+body {
+    background: url(pizarra.jpg) no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+#modCaptcha {
+    color: black;
 }

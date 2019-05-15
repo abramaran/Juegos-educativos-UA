@@ -10,7 +10,7 @@ function creaEcuacion() {
     divisor = Math.round(Math.random() * 10 + 1);
     igual = Math.round(Math.random() * 10 + 1);
     $('#ecuacion').text('x/' + divisor + ' = ' + igual);
-    $('#validar').click({param1: (igual*divisor)}, checkCaptcha);
+    $('#validar').click({ param1: (igual * divisor) }, checkCaptcha);
 }
 
 function checkCaptcha(event) {
@@ -68,4 +68,14 @@ function rellenarStats() {
     if (!cFallos)
         cFallos = 0;
     $('#cFallos').text(cFallos);
+}
+
+function pantallaCompleta() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
 }

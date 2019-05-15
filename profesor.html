@@ -12,7 +12,7 @@
     <!-- JQUERY UI -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <script src="../jquery.ui.touch-punch.min.js"></script>
+    <script src="jquery.ui.touch-punch.min.js"></script>
     <!-- JQUERY MODAL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
@@ -22,7 +22,7 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
     <link rel="stylesheet" type="text/css" media="screen" href="profesor.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="../common.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="common.css">
     <script src="profesor.js"></script>
 
 </head>
@@ -30,7 +30,7 @@
 <body>
     <header>
         <nav>
-            <a href="../index.html"><button>Volver</button></a>
+            <a href="index.html"><button>Volver</button></a>
             <h1>Zona del profesor</h1>
             <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
         </nav>
@@ -107,12 +107,13 @@
     <div id="modCaptcha" class="modal">
         <h2>Zona del profesor</h2>
         <span id="ecuacion">x/2 = 12</span>
-        <input type="text" name="captcha" id="captcha">
-        <button id="validar">Validar</button>
+        <form onsubmit="return false">        <input type="text" name="captcha" id="captcha">
+            <button id="validar">Validar</button>
+    </form>
         <br>
         <span id="falloCaptcha"><i>Inténtalo de nuevo</i></span>
         <span class="flexbotones">
-            <a href="../index.html"><button>Volver</button></a>
+            <a href="index.html"><button>Volver</button></a>
         </span>
     </div>
 

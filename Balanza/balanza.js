@@ -3,9 +3,9 @@ var sonidoFelicidades = new Audio('../minijuego-completado.ogg');
 var sonidoCorrecto = new Audio('../correctosuave.wav');
 var sonidoIncorrecto = new Audio('../vuelveaintentarlo.ogg');
 var sonidoVictoria = new Audio('../victoria.wav');
-var sonidoMenuPrincipal = new Audio('../menu-principal.ogg');
+/* var sonidoMenuPrincipal = new Audio('../menu-principal.ogg');
 var sonidoReiniciar = new Audio('../reiniciar.ogg');
-
+ */
 function cargarImagenes() {
     var imagenesSuma = [["Peso Suma/S1.png", 1], ["Peso Suma/S2.png", 2], ["Peso Suma/S3.png", 3], ["Peso Suma/S4.png", 4],
                         ["Peso Suma/S5.png", 5], ["Peso Suma/S6.png", 6], ["Peso Suma/S7.png", 7], ["Peso Suma/S8.png", 8]];
@@ -158,6 +158,10 @@ $(document).ready(function() {
         if (!jugado) jugado = 0;
         Cookies.set('balanzaJugado', ++jugado, { expires: 30 });
     });
+    $('#modInstrucciones').on($.modal.BEFORE_CLOSE, function (event, modal) {
+        $('#pesas, #balanza').show();
+        sonidoInstrucciones.pause();
+    });
 ;;
     sonidoInstrucciones.play();
 }
@@ -181,6 +185,7 @@ function comprobarResultado(pesa) {
     if(pesa == (numTotal - numSuma))
         modalVictoria();
     else {
+        sonidoIncorrecto.play();
         let fallos = Cookies.get('balanzaFallos');
         if (!fallos) fallos = 0;
         Cookies.set('balanzaFallos', ++fallos, { expires: 30 });

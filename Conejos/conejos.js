@@ -62,6 +62,7 @@ function contarCantidad() {
     
     } else {
         $('#modIncorrecto').modal();
+        sonidoIncorrecto.play();
         let fallos = Cookies.get('conejosFallos');
         if (!fallos) fallos = 0;
         Cookies.set('conejosFallos', ++fallos, { expires: 30 });
@@ -110,6 +111,7 @@ $(document).ready(function() {
         let jugado = Cookies.get('conejosJugado');
         if (!jugado) jugado = 0;
         Cookies.set('conejosJugado', ++jugado, { expires: 30 });
+        sonidoInstrucciones.pause();
     });
 ;;
     sonidoInstrucciones.play();
