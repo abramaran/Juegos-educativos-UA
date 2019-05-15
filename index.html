@@ -1,17 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Menú Principal</title>
+    <!-- TIPOGRAFIA -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="menu.css">
 </head>
+
 <body>
-    <h1>Menú</h1>
-<a href="./Tablero/tablero.html">Tablero</a>
-<a href="./Conejos/conejos.html">Conejos</a>
-<a href="./Balanza/balanza.html">Balanza</a>
-<br>
-<a href="./profesor.html">Zona del profesor</a>
+    <header>
+        <h1>Juegos educativos: ¡Practica matemáticas!</h1>
+    </header>
+    <main>
+        <a href="./Tablero/tablero.html">
+            <section>Tablero
+                <img id="peon" src="./Tablero/peon.svg">
+            </section>
+            <br>
+            <span>Para practicar la suma</span>
+        </a>
+        <a href="./Balanza/balanza.html">
+            <section>Balanza
+                <img id="balanza" src="./Balanza/Templates/balanza.png">
+                <img id="pesa" src="./Balanza/Pesas/1.png">
+                <img id="pesa2" src="./Balanza/Pesas/3.png">
+            </section>
+            <br>
+            <span>Para practicar la resta</span>
+        </a>
+        <a href="./Conejos/conejos.html">
+            <section>Conejos
+                <img id="conejo" src="./Conejos/conejoFeliz.png" alt="conejoFeliz">
+            </section>
+            <br>
+            <span>Para practicar la división</span>
+        </a>
+    </main>
+    <footer>
+        <a href="./profesor.html"> ^<br>Zona del profesor</a>
+    </footer>
 </body>
+
 </html>

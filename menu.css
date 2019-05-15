@@ -1,0 +1,145 @@
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-image: url(stripes-light.png);
+    background-blend-mode: multiply;
+    background-color: #b8eefc;
+    background-repeat: repeat;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+}
+main {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+main > a {
+    margin: 3vw;
+}
+section {
+    background-color: lightcoral;
+    width: 20vw;
+    height: 20vw; 
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 1.1em;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+    transform: scale(1);
+    transition: all 0.5s;
+    overflow: hidden;
+}
+section:hover {
+    transform: scale(1.15);
+}
+section:active {
+    transform: scale(0.85);
+}
+
+a:nth-of-type(1) > section {
+    background-image: url(./Tablero/memphis-mini.png);
+    background-attachment: fixed;
+}
+a:nth-of-type(2) > section {
+    background-image: url(./Balanza/wov.png);
+    background-attachment: fixed;
+}
+a:nth-of-type(3) > section {
+    background-image: url(./Conejos/leaves-pattern.png);
+    background-attachment: fixed;
+}
+main > a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+/* vignette 1 */
+#peon {
+    position: relative;
+    width: 20vw;
+    transform: scale(1);
+    transition: all 0.5s;
+}
+
+section:hover > #peon {
+    transform: scale(0.7) rotate(10deg) translate(4vw);
+}
+
+/* vignette 2 */
+#balanza {
+    position: relative;
+    z-index: 2;
+    width: 20vw;
+    transform: scale(1);
+    transition: all 0.5s;
+}
+
+section:hover > #balanza {
+    transform: translate(7vw, -1.3vw);
+    filter: blur(1px);
+}
+
+#pesa, #pesa2 {
+    position: relative;
+    z-index: 1;
+    top: -18vh;
+    left: -10vw;
+    filter: blur(2px);
+    width: 6.5vw;
+    transform: scale(1);
+    transition: all 0.5s;
+}
+#pesa2 {
+    width: 7vw;
+    left: -17vw;
+}
+section:hover > #pesa {
+    left: -0vw;
+    filter: blur(0px);
+}
+section:hover > #pesa2 {
+    left: -3vw;
+    filter: blur(0px) brightness(1.5);
+}
+
+/* vignette 3 */
+#conejo {
+    position: relative;
+    width: 20vw;
+    transform: scale(1) translate(0,15vh);
+    transition: all 0.5s;
+}
+
+section:hover > #conejo {
+    transform: translate(0, 0vh);
+}
+
+footer {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2em;
+    box-shadow: inset 0px 3px 3px rgba(57, 69, 71, 0.37);
+    background-color: #fbfcb8;
+    transition: all 0.5s;
+    padding: 0.5em;
+}
+
+footer:hover {
+    height: 4em;
+}
