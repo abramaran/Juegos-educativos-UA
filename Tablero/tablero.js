@@ -82,7 +82,7 @@ function hacerDroppable(numero) {
             "ui-droppable-hover": "ui-state-hover"
         },
         drop: function (event, ui) {
-            droppeado(numero, ui, this);
+            droppeado(numero, ui.draggable, this);
         }
     });
 }
@@ -90,6 +90,7 @@ function hacerDroppable(numero) {
 function droppeado(numero, ui, casilla) {
     if (casilla.id == numero) {
         $(casilla).addClass("ui-state-highlight").find("p").html("Dropped!");
+        posPeon = $('#peon').position();
         let aciertos = Cookies.get('tableroAciertos');
         if (!aciertos)
             aciertos = 0;
@@ -106,7 +107,10 @@ function droppeado(numero, ui, casilla) {
         $('#peon').effect("bounce", { times: 2 }).draggable('disable');
     }
     else {
-        ui.draggable.animate(ui.draggable.data("uiDraggable").originalPosition, "slow");
+        //ui.draggable.animate(ui.draggable.data("uiDraggable").originalPosition, "slow");
+        
+        ui.animate(posPeon, "slow");
+        
         sonidoIncorrecto.play();
         let fallos = Cookies.get('tableroFallos');
         if (!fallos)
@@ -269,32 +273,33 @@ function cambiarPosMano() {
 
 function creaArrayManoCasillas() {
     let casillas = $('.casilla');
-    let array = [
-        {objeto: '#botonVolver', funcion: function() { window.location.href = $('#botonVolver').attr('href') }},
-        {objeto: '#botonPantC', funcion: function() { pantallaCompleta() }}
-    ];
-    console.log(casillas);
+    let array = [];
+    
     for (let i = 0; i < 7; i++) {
         const element = casillas[i];
         array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { 
-            let coorAnim = {top: $(element).position().top - posPeon.top, left: $(element).position().left - posPeon.left};
-            $('#peon').animate(coorAnim, 'slow'/*, droppeado(resultadoDados, $('#peon'), $(element))*/) }
+            //let coorAnim = {top: $(element).position().top - posPeon.top, left: $(element).position().left - posPeon.left};
+            $('#peon').css({position: 'absolute'}).animate($(element).position(), {complete: function() {droppeado(resultadoDados, $('#peon'), element)}} ) }
         } );
     }
     for (let i = 12; i >= 7; i--) {
         const element = casillas[i];
         array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { 
-            $('#peon').animate($(element).position(), 'slow'/*, droppeado(resultadoDados, $('#peon'), $(element))*/) }
+            $('#peonplaceholder').css({position: 'relative'});
+            $('#peon').css({position: 'absolute'}).animate($(element).position(), {complete: function() {droppeado(resultadoDados, $('#peon'), element)}} ) }
         } );
     }
     for (let i = 13; i < 20; i++) {
         const element = casillas[i];
-        array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { droppeado(resultadoDados, $('#peon'), $(element)) } } );
+        array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { 
+            $('#peonplaceholder').css({position: 'relative'});
+            $('#peon').css({position: 'absolute'}).animate($(element).position(), {complete: function() {droppeado(resultadoDados, $('#peon'), element)}} ) }
+        } );
     }
-    /*$(casillas).each(function(i) {
-        array.push(
-            {objeto: '#' + $(this).attr('id'), funcion: function() {  }});
-    });*/
+    
+    array.push( {objeto: '#botonVolver', funcion: function() { window.location.href = $('#botonVolver').attr('href') }},
+                {objeto: '#botonPantC', funcion: function() { pantallaCompleta() }});
+
     return array;
 }
 

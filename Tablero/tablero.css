@@ -33,10 +33,15 @@ a {
     top: 25vh;
 }
 
+#contenedorPeon {
+    width: 15vh;
+}
+
 #peon {
     width: 15vh;
     cursor: grab;
 }
+
 #peon:active {
     width: 15vh;
     cursor: grabbing;
