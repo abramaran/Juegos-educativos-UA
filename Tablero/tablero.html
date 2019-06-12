@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -32,9 +32,9 @@
 <body>
     <header>
         <nav>
-            <a href="../index.html"><button>Volver</button></a>
+            <a href="../index.html" id="botonVolver"><button>Volver</button></a>
             <h1>Tablero</h1>
-            <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
+            <a onclick="pantallaCompleta()" id="botonPantC"><button> Pantalla completa</button></a>
         </nav>
     </header>
     <main>
@@ -63,7 +63,9 @@
                 </div>
 
             </div>
-            <img src="peon.svg" alt="peon" id="peon" class="ui-widget-content"></img>
+            <div id="contenedorPeon">
+                <img src="peon.svg" alt="peon" id="peon" class="ui-widget-content"></img>
+            </div>
             <section>
                 <div class="casilla" id="1">1</div>
                 <div class="casilla" id="2">2</div>
@@ -95,6 +97,8 @@
             <!--<div>
             <img id="cubilete" src="cubilete.png">
         </div>-->
+
+            <img src="mano.png" id="mano" />
         </div>
     </main>
     <!-- MODALES -->
@@ -110,8 +114,8 @@
             <li>¡Llega hasta la casilla número veinte para ganar!</li>
         </ol>
         <span class="flexbotones">
-            <a href="../index.html"><button>Volver</button></a>
-            <a href="#" rel="modal:close" onclick="sonidoInstrucciones.pause();"><button>Empezar</button></a>
+            <a href="../index.html" id="volverInstr"><button>Volver</button></a>
+            <a href="#" id="empezarInstr" rel="modal:close" onclick="empezar()"><button>Empezar</button></a>
         </span>
     </div>
 
@@ -120,8 +124,8 @@
         <p>Has completado el minijuego.</p>
         <br>
         <span class="flexbotones">
-            <a href="../index.html"><button>Volver</button></a>
-            <a href="#" rel="modal:close"><button>Reiniciar</button></a>
+            <a href="../index.html" id="volverVict"><button>Volver</button></a>
+            <a href="#" id="empezarVict" rel="modal:close"><button>Reiniciar</button></a>
         </span>
     </div>
 </body>

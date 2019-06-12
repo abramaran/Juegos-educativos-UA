@@ -1,6 +1,8 @@
 const casillasTotales = 20;
 var casillasAvanzadas = 0;
 var parteJuego = 'tirar';
+var resultadoDados = 0;
+var posPeon;
 
 var sonidoCubilete = new Audio('agitarDados.mp3');
 var sonidoInstrucciones = new Audio('instrucciones-tablero.ogg');
@@ -9,12 +11,36 @@ var sonidoCorrecto = new Audio('../correctosuave.wav');
 var sonidoIncorrecto = new Audio('../vuelveaintentarlo.ogg');
 var sonidoVictoria = new Audio('../victoria.wav');
 
+var indexMano = 0;
+var arrayCubilete = [
+    {objeto: '#cubilete', funcion: function() { $("#cubilete").click() }},
+    {objeto: '#botonVolver', funcion: function() { window.location.href = $('#botonVolver').attr('href') }},
+    {objeto: '#botonPantC', funcion: function() { pantallaCompleta() }}
+];
+var arrayCasillas = creaArrayManoCasillas();
+var arrayVictoria = [
+    {objeto: '#volverVict', funcion: function() { window.location.href = $('#volverVict').attr('href') }},
+    {objeto: '#empezarVict', funcion: function() { $('#empezarVict').click() }}
+]
+var arrayMano = [
+    {objeto: '#volverInstr', funcion: function() { window.location.href = $('#volverInstr').attr('href') }},
+    {objeto: '#empezarInstr', funcion: function() { $('#empezarInstr').click() }}
+];
+
+
+function empezar() {
+    sonidoInstrucciones.pause();
+    cambiarArrayMano(arrayCubilete);
+}
+
 $(function () {
     let color = Math.floor(Math.random() * 359);
     let colores = [];
     let $casillas = $('.casilla');
 
-    $('#peon').draggable({ revert: "invalid" });
+    let peon = $('#peon');
+    peon.draggable({ revert: "invalid" });
+    posPeon = peon.position();
 
     color = generarColores($casillas, colores, color);
 
@@ -26,8 +52,10 @@ $(function () {
         if (!jugado) jugado = 0;
         Cookies.set('tableroJugado', ++jugado, { expires: 30 });
     });
-;
+    cambiarPosMano();
+
     sonidoInstrucciones.play();
+    arrayCasillas = creaArrayManoCasillas();
 
     // ---------- Funciones privadas -------------------
     function generarColores($casillas, colores, color) {
@@ -66,32 +94,46 @@ function hacerDroppable(numero) {
             "ui-droppable-hover": "ui-state-hover"
         },
         drop: function (event, ui) {
-            if (this.id == numero) {
-                $(this).addClass("ui-state-highlight").find("p").html("Dropped!");
-                let aciertos = Cookies.get('tableroAciertos');
-                if (!aciertos) aciertos = 0;
-                Cookies.set('tableroAciertos', ++aciertos, { expires: 30 });
-
-                if (numero < 20) {
-                    parteJuego = 'tirar';
-                    sonidoCorrecto.play();
-                    $('#cubilete').addClass('emphasis');
-                } else {
-                    modalVictoria();
-                }
-
-                $('#peon').effect("bounce", { times: 2 }).draggable('disable');
-            } else {
-                ui.draggable.animate(ui.draggable.data("uiDraggable").originalPosition, "slow");
-                sonidoIncorrecto.play();
-                let fallos = Cookies.get('tableroFallos');
-                if (!fallos) fallos = 0;
-                Cookies.set('tableroFallos', ++fallos, { expires: 30 });
-            }
+            droppeado(numero, ui.draggable, this);
         }
     });
 }
 
+function droppeado(numero, ui, casilla) {
+    if (casilla.id == numero) {
+        $(casilla).addClass("ui-state-highlight").find("p").html("Dropped!");
+        posPeon = $('#peon').position();
+        let aciertos = Cookies.get('tableroAciertos');
+        if (!aciertos)
+            aciertos = 0;
+        Cookies.set('tableroAciertos', ++aciertos, { expires: 30 });
+        if (numero < 20) {
+            parteJuego = 'tirar';
+            cambiarArrayMano(arrayCubilete);
+            sonidoCorrecto.play();
+            $('#cubilete').addClass('emphasis');
+        }
+        else {
+            modalVictoria();
+        }
+        $('#peon').effect("bounce", { times: 2 }).draggable('disable');
+    }
+    else {
+        //ui.draggable.animate(ui.draggable.data("uiDraggable").originalPosition, "slow");
+        
+        ui.css({position: 'absolute'}).animate(posPeon, "slow");
+        
+        sonidoIncorrecto.play();
+        let fallos = Cookies.get('tableroFallos');
+        if (!fallos)
+            fallos = 0;
+        Cookies.set('tableroFallos', ++fallos, { expires: 30 });
+    }
+}
+
+/**
+ * Cambia las caras de los dados para que salga otro numero.
+ */
 function recolocaDados(numA, numB) {
     $('.cube > .front').eq(0).css('background-image', 'url("dado/' + numA + '.svg"');
     $('.cube > .back').eq(0).css('background-image', 'url("dado/' + (7 - numA) + '.svg"');
@@ -129,10 +171,12 @@ function tirarDados(e) {
         resetearAnimacion(cubilete, wrap, cube);
         let { valorA, valorB } = valoresDados();
         recolocaDados(valorA, valorB);
-        hacerDroppable(casillasAvanzadas + valorA + valorB);
+        resultadoDados = casillasAvanzadas + valorA + valorB;
+        hacerDroppable(resultadoDados);
         casillasAvanzadas += valorA + valorB;
         playAnimacion(cubilete, cube, wrap);
         parteJuego = 'mover';
+        cambiarArrayMano(arrayCasillas);
         $('#peon').draggable('enable');
     }
 
@@ -198,6 +242,7 @@ function modalVictoria() {
     });
     $('#modVictoria').on($.modal.OPEN, function (event, modal) {
         startConfetti();
+        cambiarArrayMano(arrayVictoria);
     });
     $('#modVictoria').on($.modal.BEFORE_CLOSE, function (event, modal) {
         stopConfetti();
@@ -216,4 +261,62 @@ function pantallaCompleta() {
             document.exitFullscreen();
         }
     }
+}
+
+$(document).keyup(function (event) {
+    if (event.which == 13) { //Se pulsa enter
+        arrayMano[indexMano].funcion();
+    }
+
+    if (event.which == 32) { //Se pulsa el espacio
+        indexMano++;     
+        cambiarPosMano();
+    }
+});
+
+function cambiarPosMano() {
+    if (indexMano == arrayMano.length)
+        indexMano = 0;
+
+    let objeto = $(arrayMano[indexMano].objeto);
+    let posObjeto = objeto.offset();
+
+    console.log(posObjeto);
+    $('#mano').css({ "left": posObjeto.left + objeto.width() / 4, "top": posObjeto.top + objeto.height() / 3 });
+}
+
+function creaArrayManoCasillas() {
+    let casillas = $('.casilla');
+    let array = [];
+    
+    for (let i = 0; i < 7; i++) {
+        const element = casillas[i];
+        array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { 
+            //let coorAnim = {top: $(element).position().top - posPeon.top, left: $(element).position().left - posPeon.left};
+            $('#peon').css({position: 'absolute'}).animate($(element).position(), {complete: function() {droppeado(resultadoDados, $('#peon'), element)}} ) }
+        } );
+    }
+    for (let i = 12; i >= 7; i--) {
+        const element = casillas[i];
+        array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { 
+            $('#peon').css({position: 'absolute'}).animate($(element).position(), {complete: function() {droppeado(resultadoDados, $('#peon'), element)}} ) }
+        } );
+    }
+    for (let i = 13; i < 20; i++) {
+        const element = casillas[i];
+        array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { 
+            $('#peon').css({position: 'absolute'}).animate($(element).position(), {complete: function() {droppeado(resultadoDados, $('#peon'), element)}} ) }
+        } );
+    }
+    
+    array.push( {objeto: '#botonVolver', funcion: function() { window.location.href = $('#botonVolver').attr('href') }},
+                {objeto: '#botonPantC', funcion: function() { pantallaCompleta() }});
+
+    return array;
+}
+
+function cambiarArrayMano(nuevoArray) {
+    arrayMano = nuevoArray;
+    indexMano = 0;
+    cambiarPosMano();
 }

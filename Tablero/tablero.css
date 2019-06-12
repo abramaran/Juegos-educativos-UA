@@ -33,13 +33,26 @@ a {
     top: 25vh;
 }
 
+#contenedorPeon {
+    width: 15vh;
+}
+
 #peon {
     width: 15vh;
     cursor: grab;
 }
+
 #peon:active {
     width: 15vh;
     cursor: grabbing;
+}
+
+#mano {
+    width: 8%;
+    height: auto;
+    position: absolute;
+    transition: 0.4s;
+    z-index: 300;
 }
 
 section {
