@@ -52,6 +52,7 @@ a {
     height: auto;
     position: absolute;
     transition: 0.4s;
+    z-index: 300;
 }
 
 section {

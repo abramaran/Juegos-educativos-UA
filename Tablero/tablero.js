@@ -18,7 +18,20 @@ var arrayCubilete = [
     {objeto: '#botonPantC', funcion: function() { pantallaCompleta() }}
 ];
 var arrayCasillas = creaArrayManoCasillas();
-var arrayMano = arrayCubilete;
+var arrayVictoria = [
+    {objeto: '#volverVict', funcion: function() { window.location.href = $('#volverVict').attr('href') }},
+    {objeto: '#empezarVict', funcion: function() { $('#empezarVict').click() }}
+]
+var arrayMano = [
+    {objeto: '#volverInstr', funcion: function() { window.location.href = $('#volverInstr').attr('href') }},
+    {objeto: '#empezarInstr', funcion: function() { $('#empezarInstr').click() }}
+];
+
+
+function empezar() {
+    sonidoInstrucciones.pause();
+    cambiarArrayMano(arrayCubilete);
+}
 
 $(function () {
     let color = Math.floor(Math.random() * 359);
@@ -34,13 +47,12 @@ $(function () {
     bordesCasillas($casillas, colores);
     $('#cubilete').click(tirarDados).on('dragstart', function (event) { event.preventDefault(); }); //evitar que arrastren la imagen
 
-    cambiarPosMano();
-
     $('#modInstrucciones').modal({ showClose: false }).on($.modal.BEFORE_CLOSE, function (event, modal) {
         let jugado = Cookies.get('tableroJugado');
         if (!jugado) jugado = 0;
         Cookies.set('tableroJugado', ++jugado, { expires: 30 });
     });
+    cambiarPosMano();
 
     sonidoInstrucciones.play();
     arrayCasillas = creaArrayManoCasillas();
@@ -109,7 +121,7 @@ function droppeado(numero, ui, casilla) {
     else {
         //ui.draggable.animate(ui.draggable.data("uiDraggable").originalPosition, "slow");
         
-        ui.animate(posPeon, "slow");
+        ui.css({position: 'absolute'}).animate(posPeon, "slow");
         
         sonidoIncorrecto.play();
         let fallos = Cookies.get('tableroFallos');
@@ -230,6 +242,7 @@ function modalVictoria() {
     });
     $('#modVictoria').on($.modal.OPEN, function (event, modal) {
         startConfetti();
+        cambiarArrayMano(arrayVictoria);
     });
     $('#modVictoria').on($.modal.BEFORE_CLOSE, function (event, modal) {
         stopConfetti();
@@ -266,9 +279,10 @@ function cambiarPosMano() {
         indexMano = 0;
 
     let objeto = $(arrayMano[indexMano].objeto);
-    let posObjeto = objeto.position();
+    let posObjeto = objeto.offset();
 
-    $('#mano').css({ "left": posObjeto.left + objeto.width() / 3, "top": posObjeto.top + objeto.height() / 3 });
+    console.log(posObjeto);
+    $('#mano').css({ "left": posObjeto.left + objeto.width() / 4, "top": posObjeto.top + objeto.height() / 3 });
 }
 
 function creaArrayManoCasillas() {
@@ -285,14 +299,12 @@ function creaArrayManoCasillas() {
     for (let i = 12; i >= 7; i--) {
         const element = casillas[i];
         array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { 
-            $('#peonplaceholder').css({position: 'relative'});
             $('#peon').css({position: 'absolute'}).animate($(element).position(), {complete: function() {droppeado(resultadoDados, $('#peon'), element)}} ) }
         } );
     }
     for (let i = 13; i < 20; i++) {
         const element = casillas[i];
         array.push( {objeto: '#' + $(element).attr('id'), funcion: function() { 
-            $('#peonplaceholder').css({position: 'relative'});
             $('#peon').css({position: 'absolute'}).animate($(element).position(), {complete: function() {droppeado(resultadoDados, $('#peon'), element)}} ) }
         } );
     }
