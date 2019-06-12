@@ -42,6 +42,13 @@ a {
     cursor: grabbing;
 }
 
+#mano {
+    width: 8%;
+    height: auto;
+    position: absolute;
+    transition: 0.4s;
+}
+
 section {
     display: grid;
     grid-template-columns: repeat(6, 15vh);
