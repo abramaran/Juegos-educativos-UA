@@ -27,12 +27,6 @@ var arrayMano = [
     {objeto: '#empezarInstr', funcion: function() { $('#empezarInstr').click() }}
 ];
 
-
-function empezar() {
-    sonidoInstrucciones.pause();
-    cambiarArrayMano(arrayCubilete);
-}
-
 $(function () {
     let color = Math.floor(Math.random() * 359);
     let colores = [];
@@ -51,6 +45,8 @@ $(function () {
         let jugado = Cookies.get('tableroJugado');
         if (!jugado) jugado = 0;
         Cookies.set('tableroJugado', ++jugado, { expires: 30 });
+        sonidoInstrucciones.pause();
+        cambiarArrayMano(arrayCubilete);
     });
     cambiarPosMano();
 
