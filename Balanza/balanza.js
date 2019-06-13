@@ -6,6 +6,24 @@ var sonidoVictoria = new Audio('../victoria.wav');
 /* var sonidoMenuPrincipal = new Audio('../menu-principal.ogg');
 var sonidoReiniciar = new Audio('../reiniciar.ogg');
  */
+
+
+var indexMano = 0;
+var arrayObjetos = [
+    {objeto: '#1', funcion: function() { desplazar('#1'); }},
+    {objeto: '#2', funcion: function() { desplazar('#2'); }},
+    {objeto: '#3', funcion: function() { desplazar('#3'); }},
+    {objeto: '#4', funcion: function() { desplazar('#4'); }},
+    {objeto: '#5', funcion: function() { desplazar('#5'); }},
+    {objeto: '#6', funcion: function() { desplazar('#6'); }},
+    {objeto: '#7', funcion: function() { desplazar('#7'); }},
+    {objeto: '#8', funcion: function() { desplazar('#8'); }},
+    {objeto: '#9', funcion: function() { desplazar('#9'); }},
+    {objeto: '#botonVolver', funcion: function() { window.location.href = $('#botonVolver').attr('href') }},
+    {objeto: '#botonPantC', funcion: function() { pantallaCompleta() }}
+];
+
+
 function cargarImagenes() {
     var imagenesSuma = [["Peso Suma/S1.png", 1], ["Peso Suma/S2.png", 2], ["Peso Suma/S3.png", 3], ["Peso Suma/S4.png", 4],
                         ["Peso Suma/S5.png", 5], ["Peso Suma/S6.png", 6], ["Peso Suma/S7.png", 7], ["Peso Suma/S8.png", 8]];
@@ -29,6 +47,27 @@ function cargarImagenes() {
     }
 }
 
+$(document).keyup(function (event) {
+    if (event.which == 13) { //Se pulsa enter
+        arrayObjetos[indexMano].funcion();
+    }
+
+    if (event.which == 32) { //Se pulsa el espacio
+        indexMano++;     
+        cambiarPosMano();
+    }
+});
+
+function cambiarPosMano() {
+    if (indexMano == arrayObjetos.length)
+        indexMano = 0;
+
+    let objeto = $(arrayObjetos[indexMano].objeto);
+    let posObjeto = objeto.offset();
+
+    $('#mano').css({ "left": posObjeto.left + objeto.width() / 4, "top": posObjeto.top + objeto.height() / 3 });
+}
+
 
 $(document).ready(function() {
     cargarImagenes();
@@ -48,6 +87,7 @@ $(document).ready(function() {
     $("#pesoSuma").css({"margin-top": marginSuma + "%"});
     $("#pesoTotal").css({"margin-top": marginTotal + "%"});
 
+    cambiarPosMano();
 
     $(".draggable").draggable({
         start: function() {
@@ -63,64 +103,7 @@ $(document).ready(function() {
         accept: ".draggable",
     
         drop: function(event, ui) {
-
-            //Antes de nada, comprobamos que no haya ya una pesa en la balanza. Si es el caso, devolvemos el draggable a su posición
-            if($("#balanza img").hasClass("dentro")) {
-                $(ui.draggable).draggable('option','revert',true);
-                return false;
-            }
-
-            var pesa = parseFloat(ui.draggable.attr("id"));
-
-            //Cuando soltamos la pesa en la balanza, la borramos de la zona donde están todas y la añadimos al <div> de la balanza
-            //Usamos la clase "dentro" para ajustar las propiedades
-            $(ui.draggable).remove();
-            $("#pesoSuma").after("<img id='" + pesa + "' class='draggable dentro' src='Pesas/" + pesa + ".png'></img>");
-
-            $(".dentro").draggable({
-                start: function() {
-                    $(this).css({"background": "yellow"});
-                },
-                stop: function() {
-                    $(this).css({"background": "none"});
-                }
-            });
-
-
-            //Calculamos dónde colocar la pesa que hemos soltado de manera que quede bien situada dentro del peso
-            var marginPesa = parseFloat($("#pesoSuma").css("margin-top")) + parseFloat($(".dentro").css("height"))
-                             - parseFloat($("#pesoSuma").css("height")) / 40;
-
-            $(".dentro").css({"margin-top" : marginPesa + "px"})
-
-
-            //Ahora, para la animación, repetimos el mismo proceso que antes: partir del valor de la pesa que 
-            //droppeemos, se repartirá el margen de manera proporcional.
-            var marginSuma = 5 + (numSuma+pesa)/(numSuma+pesa+numTotal) * 20;
-            var marginTotal = 5 + numTotal/(numSuma+pesa+numTotal) * 20;
-
-
-            //Guardamos el margen actual del peso de la suma para futuras operaciones
-            var marginAntes = parseFloat($("#pesoSuma").css("margin-top"));
-
-
-            //Procedemos con el efecto de los pesos subiendo y bajando
-            $("#pesoSuma").animate({"margin-top": marginSuma + "%"}, "slow");
-            $("#pesoTotal").animate({"margin-top": marginTotal + "%"}, "slow");
-            //Asignamos manualmente el nuevo margin-top, ya que .animate() no se lo asigna
-            $("#pesoSuma").css({"margin-top": marginSuma + "%"});
-
-
-            //A continuación, calculamos el margin-top de la pesa suelta a partir de cuánto haya variado el margin de #pesoSuma
-            //Todo este costoso proceso se debe a que, para obtener un diseño responsive, trabajamos con porcentajes. No obstante,
-            //a la hora de trabajar con la pesa suelta, para que se mantenga en una posición absoluta, hay que hacer numerosos
-            //cálculos para obtener medidas en px pero que a la vez sean responsive.
-            marginPesa = parseFloat($(".dentro").css("margin-top")) + parseFloat($("#pesoSuma").css("margin-top")) - marginAntes;
-            
-            //Después de finalizar la animación, comprobamos si la resta es correcta, pasándole el valor de la pesa droppeada
-            $(".dentro").animate({"margin-top": marginPesa + "px"}, "slow", function(){
-                comprobarResultado(pesa);
-            });
+            droppeado(ui.draggable);
         },
 
         over: function(event, ui) {
@@ -129,29 +112,10 @@ $(document).ready(function() {
 
         
         out: function(event, ui) {
-            //Reseteamos todo
-            marginSuma = 5 + numSuma/(numSuma+numTotal) * 20;
-            marginTotal = 5 + numTotal/(numSuma+numTotal) * 20;
-
-            $("#pesoSuma").animate({"margin-top": marginSuma + "%"}, "slow");
-            $("#pesoTotal").animate({"margin-top": marginTotal + "%"}, "slow");
-
-            //Colocamos la pesa suelta en su <div> original y reseteamos sus propiedades
-            $("#pesas").append($(ui.draggable));
-            $(ui.draggable).removeClass("dentro");
-            $(ui.draggable).css({"background": "yellow"});
-            $(ui.draggable).css({"margin-top": 0, "left": 0 + "px", "top": 0 + "px"});
-
-            $(".draggable").draggable({
-                start: function() {
-                    $(this).css({"background": "yellow"});
-                },
-                stop: function() {
-                    $(this).css({"background": "none", "margin-top": 0, "position": "relative", "left": 0 + "px", "top": 0 + "px"});
-                }
-            });
+            sacarPesa(ui.draggable);
         }
     });
+
     $('#pesas, #balanza').hide();
     $('#modInstrucciones').modal({ showClose: false, clickClose: true }).on($.modal.BEFORE_CLOSE, function (event, modal) {
         let jugado = Cookies.get('balanzaJugado');
@@ -222,4 +186,122 @@ function pantallaCompleta() {
             document.exitFullscreen();
         }
     }
+}
+
+
+function droppeado(ui) {
+    //Antes de nada, comprobamos que no haya ya una pesa en la balanza. Si es el caso, devolvemos el draggable a su posición
+    if($("#balanza img").hasClass("dentro")) {
+        $(ui).draggable('option','revert',true);
+        return false;
+    }
+
+    var pesa = parseFloat(ui.attr("id"));
+
+    //Cuando soltamos la pesa en la balanza, la borramos de la zona donde están todas y la añadimos al <div> de la balanza
+    //Usamos la clase "dentro" para ajustar las propiedades
+    $(ui).remove();
+    $("#pesoSuma").after("<img id='" + pesa + "' class='draggable dentro' src='Pesas/" + pesa + ".png'></img>");
+
+    $(".dentro").draggable({
+        start: function() {
+            $(this).css({"background": "yellow"});
+        },
+        stop: function() {
+            $(this).css({"background": "none"});
+        }
+    });
+
+
+    //Calculamos dónde colocar la pesa que hemos soltado de manera que quede bien situada dentro del peso
+    var marginPesa = parseFloat($("#pesoSuma").css("margin-top")) + parseFloat($(".dentro").css("height"))
+                    - parseFloat($("#pesoSuma").css("height")) / 40;
+
+    $(".dentro").css({"margin-top" : marginPesa + "px"})
+
+    var numSuma = parseFloat($("#pesoSuma").attr("src").replace(/[^0-9]+/g, ''));
+    var numTotal = parseFloat($("#pesoTotal").attr("src").replace(/[^0-9]+/g, ''));
+
+    //Ahora, para la animación, repetimos el mismo proceso que antes: partir del valor de la pesa que 
+    //droppeemos, se repartirá el margen de manera proporcional.
+    var marginSuma = 5 + (numSuma+pesa)/(numSuma+pesa+numTotal) * 20;
+    var marginTotal = 5 + numTotal/(numSuma+pesa+numTotal) * 20;
+
+
+    //Guardamos el margen actual del peso de la suma para futuras operaciones
+    var marginAntes = parseFloat($("#pesoSuma").css("margin-top"));
+
+
+    //Procedemos con el efecto de los pesos subiendo y bajando
+    $("#pesoSuma").animate({"margin-top": marginSuma + "%"}, "slow");
+    $("#pesoTotal").animate({"margin-top": marginTotal + "%"}, "slow");
+
+    //Asignamos manualmente el nuevo margin-top, ya que .animate() no se lo asigna
+    $("#pesoSuma").css({"margin-top": marginSuma + "%"});
+
+    //A continuación, calculamos el margin-top de la pesa suelta a partir de cuánto haya variado el margin de #pesoSuma
+    //Todo este costoso proceso se debe a que, para obtener un diseño responsive, trabajamos con porcentajes. No obstante,
+    //a la hora de trabajar con la pesa suelta, para que se mantenga en una posición absoluta, hay que hacer numerosos
+    //cálculos para obtener medidas en px pero que a la vez sean responsive.
+    marginPesa = parseFloat($(".dentro").css("margin-top")) + parseFloat($("#pesoSuma").css("margin-top")) - marginAntes;
+
+    //Después de finalizar la animación, comprobamos si la resta es correcta, pasándole el valor de la pesa droppeada
+    $(".dentro").animate({"margin-top": marginPesa + "px"}, "slow", function(){
+        comprobarResultado(pesa);
+    });
+}
+
+
+function sacarPesa(pesa) {
+    var numSuma = parseFloat($("#pesoSuma").attr("src").replace(/[^0-9]+/g, ''));
+    var numTotal = parseFloat($("#pesoTotal").attr("src").replace(/[^0-9]+/g, ''));
+    //Reseteamos todo
+    marginSuma = 5 + numSuma/(numSuma+numTotal) * 20;
+    marginTotal = 5 + numTotal/(numSuma+numTotal) * 20;
+
+    $("#pesoSuma").animate({"margin-top": marginSuma + "%"}, "slow");
+    $("#pesoTotal").animate({"margin-top": marginTotal + "%"}, "slow");
+
+    //Colocamos la pesa suelta en su <div> original y reseteamos sus propiedades
+    $("#pesas").append($(pesa));
+    $(pesa).removeClass("dentro");
+    $(pesa).css({"margin-top": 0, "left": 0 + "px", "top": 0 + "px"});
+
+    $(".draggable").draggable({
+        start: function() {
+            $(this).css({"background": "yellow"});
+        },
+        stop: function() {
+            $(this).css({"background": "none", "margin-top": 0, "position": "relative", "left": 0 + "px", "top": 0 + "px"});
+        }
+    });
+}
+
+
+function desplazar(pesa) {
+
+    if($(pesa).hasClass("dentro")) {
+        sacarPesa(pesa);
+
+        let objeto = $(pesa);
+        let posObjeto = objeto.offset();
+
+        $('#mano').animate({left: posObjeto.left + objeto.width() / 4, top: posObjeto.top + objeto.height() / 3 });
+
+    } else {
+        if(!$("#balanza img").hasClass("dentro")) {
+            $(pesa).animate($('#pesoSuma').position(), {
+                complete: function() { 
+                    droppeado($(pesa));
+
+                    let objeto = $(pesa);
+                    let posObjeto = objeto.offset();
+
+                    $('#mano').animate({left: posObjeto.left + objeto.width() / 4, top: posObjeto.top + objeto.height() / 3 });
+                }
+            });
+        }
+    }
+
+    
 }
