@@ -23,6 +23,15 @@ var arrayObjetos = [
     {objeto: '#botonPantC', funcion: function() { pantallaCompleta() }}
 ];
 
+var arrayVictoria = [
+    {objeto: '#volverVict', funcion: function() { window.location.href = $('#volverVict').attr('href') }},
+    {objeto: '#empezarVict', funcion: function() { $('#empezarVict').click() }}
+];
+
+var arrayMano = [
+    {objeto: '#volverInstr', funcion: function() { window.location.href = $('#volverInstr').attr('href') }},
+    {objeto: '#empezarInstr', funcion: function() { $('#empezarInstr').click() }}
+];
 
 function cargarImagenes() {
     var imagenesSuma = [["Peso Suma/S1.png", 1], ["Peso Suma/S2.png", 2], ["Peso Suma/S3.png", 3], ["Peso Suma/S4.png", 4],
@@ -49,7 +58,7 @@ function cargarImagenes() {
 
 $(document).keyup(function (event) {
     if (event.which == 13) { //Se pulsa enter
-        arrayObjetos[indexMano].funcion();
+        arrayMano[indexMano].funcion();
     }
 
     if (event.which == 32) { //Se pulsa el espacio
@@ -59,10 +68,10 @@ $(document).keyup(function (event) {
 });
 
 function cambiarPosMano() {
-    if (indexMano == arrayObjetos.length)
+    if (indexMano == arrayMano.length)
         indexMano = 0;
 
-    let objeto = $(arrayObjetos[indexMano].objeto);
+    let objeto = $(arrayMano[indexMano].objeto);
     let posObjeto = objeto.offset();
 
     $('#mano').css({ "left": posObjeto.left + objeto.width() / 4, "top": posObjeto.top + objeto.height() / 3 });
@@ -86,8 +95,6 @@ $(document).ready(function() {
 
     $("#pesoSuma").css({"margin-top": marginSuma + "%"});
     $("#pesoTotal").css({"margin-top": marginTotal + "%"});
-
-    cambiarPosMano();
 
     $(".draggable").draggable({
         start: function() {
@@ -121,11 +128,16 @@ $(document).ready(function() {
         let jugado = Cookies.get('balanzaJugado');
         if (!jugado) jugado = 0;
         Cookies.set('balanzaJugado', ++jugado, { expires: 30 });
+
     });
     $('#modInstrucciones').on($.modal.BEFORE_CLOSE, function (event, modal) {
         $('#pesas, #balanza').show();
         sonidoInstrucciones.pause();
+        cambiarArrayMano(arrayObjetos);
     });
+
+    cambiarPosMano();
+
 ;;
     sonidoInstrucciones.play();
 }
@@ -167,6 +179,7 @@ function modalVictoria() {
     });
     $('#modVictoria').on($.modal.OPEN, function (event, modal) {
         startConfetti();
+        cambiarArrayMano(arrayVictoria);
     });
     $('#modVictoria').on($.modal.BEFORE_CLOSE, function (event, modal) {
         stopConfetti();
@@ -248,6 +261,7 @@ function droppeado(ui) {
     //Después de finalizar la animación, comprobamos si la resta es correcta, pasándole el valor de la pesa droppeada
     $(".dentro").animate({"margin-top": marginPesa + "px"}, "slow", function(){
         comprobarResultado(pesa);
+        cambiarPosMano();            
     });
 }
 
@@ -282,26 +296,22 @@ function desplazar(pesa) {
 
     if($(pesa).hasClass("dentro")) {
         sacarPesa(pesa);
-
-        let objeto = $(pesa);
-        let posObjeto = objeto.offset();
-
-        $('#mano').animate({left: posObjeto.left + objeto.width() / 4, top: posObjeto.top + objeto.height() / 3 });
+        cambiarPosMano();
 
     } else {
         if(!$("#balanza img").hasClass("dentro")) {
             $(pesa).animate($('#pesoSuma').position(), {
                 complete: function() { 
                     droppeado($(pesa));
-
-                    let objeto = $(pesa);
-                    let posObjeto = objeto.offset();
-
-                    $('#mano').animate({left: posObjeto.left + objeto.width() / 4, top: posObjeto.top + objeto.height() / 3 });
                 }
             });
         }
     }
+}
 
-    
+
+function cambiarArrayMano(nuevoArray) {
+    arrayMano = nuevoArray;
+    indexMano = 0;
+    cambiarPosMano();
 }
