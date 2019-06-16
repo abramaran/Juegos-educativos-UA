@@ -23,8 +23,8 @@ div {
 }
 
 .zanahoria {
-    width: 3.5%;
-    height: auto;
+    width: 3.5vw;
+    height: 3.5vw;
 }
 
 .conejo {
@@ -33,15 +33,44 @@ div {
     margin-bottom: 1%;
 }
 
+#divCirculos {
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+}
 .circulo {
     width: 14%;
-    height: auto;
+    height: 100%;
     padding-left: 2%;
     padding-right: 2%;
     max-width: 17%;
     min-width: 12%;
+    background-image: url(circulo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
 }
 
 .boton {
     margin-top: 2%;
+}
+
+#mano {
+    max-width: 8%;
+    height: auto;
+    position: absolute;
+    transition: 0.4s;
+    z-index: 300;
+}
+
+#mano > img:first-child {
+    width: 8vw;
+}
+
+.flexCirculo {
+    /**/
 }

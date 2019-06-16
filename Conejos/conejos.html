@@ -8,12 +8,15 @@
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
     <!-- JQUERY -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <!-- JQUERY UI -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-    <script src="../jquery.ui.touch-punch.min.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>    <!-- JQUERY UI -->
+    <script
+    src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+    crossorigin="anonymous"></script>
+  <script src="../jquery.ui.touch-punch.min.js"></script>
     <!-- CONFETTI.JS -->
     <script src="../confetti.js"></script>
     <!-- JQUERY MODAL -->
@@ -32,9 +35,9 @@
 <body onresize="">
     <header>
         <nav>
-            <a href="../index.html"><button>Volver</button></a>
+            <a href="../index.html" id="botonVolver"><button>Volver</button></a>
             <h1>Conejos</h1>
-            <a onclick="pantallaCompleta()"><button> Pantalla completa</button></a>
+            <a onclick="pantallaCompleta()" id="botonPantC"><button> Pantalla completa</button></a>
         </nav>
     </header>
     <main>
@@ -45,9 +48,10 @@
     <div id="divCirculos"></div><br>
 
     <div>
-        <button class="boton" onclick="contarCantidad()">Corregir</button>
-        <button class="boton" onclick="reiniciar()">Reiniciar</button>
+        <button class="boton" id="corregir" onclick="contarCantidad()">Corregir</button>
+        <button class="boton" id="reiniciar" onclick="reiniciar()">Reiniciar</button>
     </div>
+    <div id="mano"><img src="mano.png" /></div>
     </main>
     <!-- MODALES -->
     <div id="use-landscape">
@@ -58,8 +62,8 @@
         <h2>Instrucciones</h2>
         <p>Resuelve la división y reparte las zanahorias entre los conejos.</p>
         <span class="flexbotones">
-            <a href="../index.html"><button>Volver</button></a>
-            <a href="#" rel="modal:close"><button>Empezar</button></a>
+            <a href="../index.html" id="volverInstr"><button>Volver</button></a>
+            <a href="#" id="empezarInstr" rel="modal:close"><button>Empezar</button></a>
         </span>
     </div>
 
@@ -73,8 +77,8 @@
         <p>Has completado el minijuego.</p>
         <br>
         <span class="flexbotones">
-            <a href="../index.html"><button>Volver</button></a>
-            <a href="#" rel="modal:close"><button>Reiniciar</button></a>
+            <a href="../index.html" id="volverVict"><button>Volver</button></a>
+            <a href="#" id="empezarVict" rel="modal:close"><button>Reiniciar</button></a>
         </span>
     </div>
 
