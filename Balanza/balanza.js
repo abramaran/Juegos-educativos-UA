@@ -57,11 +57,13 @@ function cargarImagenes() {
 }
 
 $(document).keyup(function (event) {
-    if (event.which == 13) { //Se pulsa enter
+    let modoAccesible = Cookies.get('modoAccesible');
+
+    if (event.which == 13 && modoAccesible == 1) { //Se pulsa enter
         arrayMano[indexMano].funcion();
     }
 
-    if (event.which == 32) { //Se pulsa el espacio
+    if (event.which == 32 && modoAccesible == 1) { //Se pulsa el espacio
         indexMano++;     
         cambiarPosMano();
     }
@@ -79,6 +81,8 @@ function cambiarPosMano() {
 
 
 $(document).ready(function() {
+    comprobarModoAcc();
+
     cargarImagenes();
 
     //Estas líneas son para extraer el número que hay en el src de la imagen
@@ -314,4 +318,16 @@ function cambiarArrayMano(nuevoArray) {
     arrayMano = nuevoArray;
     indexMano = 0;
     cambiarPosMano();
+}
+
+function comprobarModoAcc() {
+    let modoAccesible = Cookies.get('modoAccesible');
+
+    if(modoAccesible == 1) {
+        $('#mano').css({ display: "initial" });
+        cambiarPosMano();
+
+    } else
+        $('#mano').css({ display: "none" });
+    
 }

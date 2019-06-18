@@ -94,6 +94,7 @@ function contarCantidad() {
 }
 
 $(document).ready(function() {
+    comprobarModoAcc();
 
     prepararDivision();
 
@@ -205,11 +206,13 @@ function pantallaCompleta() {
  * Funciones de accesibilidad (mano)
  */
 $(document).keyup(function (event) {
-    if (event.which == 13) { //Se pulsa enter
+    let modoAccesible = Cookies.get('modoAccesible');
+
+    if (event.which == 13 && modoAccesible == 1) { //Se pulsa enter
         arrayMano[indexMano].funcion();
     }
 
-    if (event.which == 32) { //Se pulsa el espacio
+    if (event.which == 32 && modoAccesible == 1) { //Se pulsa el espacio
         indexMano++;     
         cambiarPosMano();
     }
@@ -270,4 +273,16 @@ function cogeZanahoria(zanahoria) {
     $(zanahoria.objeto).css({position: 'absolute', paddingBottom: '3em'}).removeClass('zanahoriaDropped');    
     $('#mano').append($(zanahoria.objeto));
     cambiarArrayMano(arrayCirculos);
+}
+
+function comprobarModoAcc() {
+    let modoAccesible = Cookies.get('modoAccesible');
+
+    if(modoAccesible == 1) {
+        $('#mano').css({ display: "initial" });
+        cambiarPosMano();
+
+    } else
+        $('#mano').css({ display: "none" });
+    
 }

@@ -65,6 +65,7 @@ div {
     position: absolute;
     transition: 0.4s;
     z-index: 300;
+    display: none;
 }
 
 #mano > img:first-child {
