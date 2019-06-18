@@ -9,21 +9,38 @@
     <!-- TIPOGRAFIA -->
     <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="menu.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="common.css">
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- JQUERY MODAL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <!-- COOKIES -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+    <script src="index.js"></script>
 </head>
 
 <body>
     <header>
         <h1>Juegos educativos: ¡Practica matemáticas!</h1>
+        
+        <button id="botonAccesibilidad" onclick="activarModal()">Accesibilidad</button>
+
     </header>
     <main>
-        <a href="./Tablero/tablero.html">
+        <img src="mano.png" id="mano" />
+
+        <a href="./Tablero/tablero.html" id="tablero">
             <section>Tablero
                 <img id="peon" src="./Tablero/peon.svg">
             </section>
             <br>
             <span>Para practicar la suma</span>
         </a>
-        <a href="./Balanza/balanza.html">
+        <a href="./Balanza/balanza.html" id="balanza">
             <section>Balanza
                 <img id="balanza" src="./Balanza/Templates/balanza.png">
                 <img id="pesa" src="./Balanza/Pesas/1.png">
@@ -32,16 +49,26 @@
             <br>
             <span>Para practicar la resta</span>
         </a>
-        <a href="./Conejos/conejos.html">
+        <a href="./Conejos/conejos.html" id="conejos">
             <section>Conejos
                 <img id="conejo" src="./Conejos/conejoFeliz.png" alt="conejoFeliz">
             </section>
             <br>
             <span>Para practicar la división</span>
         </a>
+
+        <div id="modAccesibilidad" class="modal">
+            <h3>Modo accesible</h3>
+            <p>Usar el teclado para jugar en la web</p>
+            <span class="flexbotones">
+                <button id="toggleActivar" onclick="toggleAccesibilidad()">Activar</button>
+                <a href="#" rel="modal:close" id="cerrarModal"><button>Cerrar</button></a>
+            </span>
+        </div>
+
     </main>
     <footer>
-        <a href="./profesor.html"> ^<br>Zona del profesor</a>
+        <a href="./profesor.html" id="profesor"> ^<br>Zona del profesor</a>
         <span>Hecho por Esther Navarro García y Alberto Benavent Ramón.</span>
     </footer>
 </body>

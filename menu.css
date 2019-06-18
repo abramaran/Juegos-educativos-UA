@@ -81,7 +81,7 @@ section:hover > #peon {
 /* vignette 2 */
 #balanza {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     width: 20vw;
     transform: scale(1);
     transition: all 0.5s;
@@ -146,4 +146,12 @@ footer {
 
 footer:hover {
     height: 4em;
+}
+
+#mano {
+    width: 8%;
+    height: auto;
+    position: absolute;
+    transition: 0.4s;
+    z-index: 300;
 }
