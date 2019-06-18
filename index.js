@@ -9,14 +9,10 @@ var arrayObjetos = [
 var arrayModal = [
     {objeto: '#toggleActivar', funcion: function() { $('#toggleActivar').click(); }},
     {objeto: '#cerrarModal', funcion: function() {
-        $('#cerrarModal').click(); 
-        cambiarArrayMano(arrayObjetos); }},
+        $('#cerrarModal').click(); }},
 ];
 
-var arrayMano = [
-    {objeto: '#volverInstr', funcion: function() { window.location.href = $('#volverInstr').attr('href') }},
-    {objeto: '#empezarInstr', funcion: function() { $('#empezarInstr').click() }}
-];
+var arrayMano = arrayObjetos;
 
 
 $(document).ready(function() {
@@ -56,7 +52,9 @@ function cambiarArrayMano(nuevoArray) {
 function activarModal() {
     let modoAccesible = Cookies.get('modoAccesible');
 
-    $('#modAccesibilidad').modal();
+    $('#modAccesibilidad').modal().on($.modal.BEFORE_CLOSE, function (event, modal) {
+        cambiarArrayMano(arrayObjetos);
+    });
 
     if (!modoAccesible || modoAccesible == 0) 
         $('#toggleActivar').text('Activar');
