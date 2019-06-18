@@ -21,15 +21,17 @@ var arrayMano = [
 
 $(document).ready(function() {
     cambiarArrayMano(arrayObjetos);
-
+    comprobarModoAcc();
 });
 
 $(document).keyup(function (event) {
-    if (event.which == 13) { //Se pulsa enter
+    let modoAccesible = Cookies.get('modoAccesible');
+
+    if (event.which == 13 && modoAccesible == 1) { //Se pulsa enter
         arrayMano[indexMano].funcion();
     }
 
-    if (event.which == 32) { //Se pulsa el espacio
+    if (event.which == 32 && modoAccesible == 1) { //Se pulsa el espacio
         indexMano++;     
         cambiarPosMano();
     }
@@ -53,22 +55,43 @@ function cambiarArrayMano(nuevoArray) {
 
 function activarModal() {
     let modoAccesible = Cookies.get('modoAccesible');
-    if (!modoAccesible) {
-        $('#toggleActivar').text('Desactivar');
-    } else 
-        $('#toggleActivar').text('Activar');
 
     $('#modAccesibilidad').modal();
+
+    if (!modoAccesible || modoAccesible == 0) 
+        $('#toggleActivar').text('Activar');
+    else 
+        $('#toggleActivar').text('Desactivar');
+    
+    cambiarArrayMano(arrayModal);
+
+    
 }
 
 function toggleAccesibilidad() {
     let modoAccesible = Cookies.get('modoAccesible');
-    if (!modoAccesible) {
-        modoAccesible = 0;
+    if (!modoAccesible || modoAccesible == 0) {
+        modoAccesible = 1;
         $('#toggleActivar').text('Desactivar');
     } else {
-        modoAccesible = 1;
+        modoAccesible = 0;
         $('#toggleActivar').text('Activar');
     }
     Cookies.set('modoAccesible', modoAccesible, { expires: 30 });
+
+    $(':focus').blur();
+
+    comprobarModoAcc();
+}
+
+function comprobarModoAcc() {
+    let modoAccesible = Cookies.get('modoAccesible');
+
+    if(modoAccesible == 1) {
+        $('#mano').css({ display: "initial" });
+        cambiarPosMano();
+
+    } else
+        $('#mano').css({ display: "none" });
+    
 }
